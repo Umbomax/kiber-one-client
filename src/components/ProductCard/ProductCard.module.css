@@ -1,0 +1,105 @@
+.productCard {
+    width: 30%;
+    margin: 1%;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .productCard:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+  }
+  
+  .productImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .productName {
+    margin: 12px 0 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .productPrice {
+    font-size: 1em;
+    color: #333;
+    margin: 0 0 8px;
+  }
+  
+  .productDescription {
+    font-size: 0.9em;
+    color: #666;
+    text-align: center;
+  }
+  
+  .modal {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    outline: none;
+  }
+  
+  .modalImage {
+    width: 100%;
+    height: auto;
+    margin-bottom: 16px;
+  }
+  
+  .thumbnailContainer {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: border-color 0.2s ease;
+  }
+  
+  .thumbnail:hover {
+    border-color: #aaa;
+  }
+  
+  .activeThumbnail {
+    border-color: #007bff;
+  }
+  
+  .selectors {
+    margin: 16px 0;
+  }
+  
+  .selector label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .cartControls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  
+  .cartControls button {
+    padding: 8px 12px;
+  }
+  

@@ -1,11 +1,21 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate
 import CartContext from '../../context/CartContext';
 import styles from './Cart.module.css';
 
 const Cart = () => {
   const { cart, removeFromCart, addToCart, clearCart } = useContext(CartContext);
+  const navigate = useNavigate(); // Хук для перенаправления
 
   const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  const handleCheckout = () => {
+    if (cart.length === 0) {
+      alert('Корзина пуста! Добавьте товары перед оформлением заказа.');
+      return;
+    }
+    navigate('/checkout');
+  };
 
   return (
     <div className={styles.cart}>
@@ -52,7 +62,9 @@ const Cart = () => {
         <button onClick={clearCart} className={styles.clearButton}>
           Очистить корзину
         </button>
-        <button className={styles.checkoutButton}>Оформить заказ</button>
+        <button onClick={handleCheckout} className={styles.checkoutButton}>
+          Перейти к оформлению
+        </button>
       </div>
     </div>
   );

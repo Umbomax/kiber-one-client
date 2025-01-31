@@ -50,15 +50,15 @@ const Cart = () => {
                     <button onClick={() => addToCart(item)}>+</button>
                   </div>
                 </td>
-                <td>{item.price} ₽</td>
-                <td>{item.price * item.quantity} ₽</td>
+                <td>{item.price} киберонов</td>
+                <td>{item.price * item.quantity} киберонов</td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
       <div className={styles.cartFooter}>
-        <p>Общая цена: {totalPrice} ₽</p>
+        <p>Общая цена: {totalPrice} киберонов</p>
         <button onClick={clearCart} className={styles.clearButton}>
           Очистить корзину
         </button>

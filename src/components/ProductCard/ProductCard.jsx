@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
       >
         <img src={product.images[0]} alt={product.name} className={styles.productImage} />
         <h3 className={styles.productName}>{product.name}</h3>
-        <p className={styles.productPrice}>{product.price} ₽</p>
+        <p className={styles.productPrice}>{product.price} киберонов</p>
         <p className={styles.productDescription}>{product.shortDescription}</p>
       </div>
 

@@ -13,11 +13,11 @@ const Checkout = () => {
     phone: "",
     comments: "",
   });
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const fetchSchools = async () => {
       try {
-        const response = await axios.get("http://localhost:5050/add-school");
+        const response = await axios.get(`${apiUrl}/add-school`);
         setSchools(response.data);
       } catch (error) {
         console.error("Ошибка при загрузке адресов школ:", error);
@@ -25,7 +25,7 @@ const Checkout = () => {
     };
 
     fetchSchools();
-  }, []);
+  }, [apiUrl]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,7 +35,7 @@ const Checkout = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5050/create-order", {
+      await axios.post(`${apiUrl}/create-order`, {
         ...formData,
         cart,
       });

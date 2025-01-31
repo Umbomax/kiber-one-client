@@ -7,10 +7,10 @@ const ProductList = ({ onAddToCart }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   useEffect(() => {
     axios
-      .get('http://localhost:5050/products')
+      .get(`${apiUrl}/products`)
       .then((response) => {
         setProducts(response.data);
         setLoading(false);

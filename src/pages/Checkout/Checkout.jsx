@@ -2,44 +2,54 @@ import React, { useState, useEffect, useContext } from "react";
 import CartContext from "../../context/CartContext";
 import axios from "axios";
 import styles from "./Checkout.module.css";
-
+import Header from "../../components/Header/Header";
 const Checkout = () => {
   const { cart, clearCart } = useContext(CartContext);
   const [schools, setSchools] = useState([]);
+  const [groups, setGroups] = useState([]);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     schoolId: "",
+    groupId: "",
     phone: "",
     comments: "",
   });
+
   const apiUrl = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     const fetchSchools = async () => {
       try {
         const response = await axios.get(`${apiUrl}/add-school`);
         setSchools(response.data);
       } catch (error) {
-        console.error("Ошибка при загрузке адресов школ:", error);
+        console.error("Ошибка загрузки школ:", error);
       }
     };
-
     fetchSchools();
   }, [apiUrl]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = async (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "schoolId") {
+      try {
+        const response = await axios.get(`${apiUrl}/add-school/${value}/groups`);
+        setGroups(response.data);
+        setFormData((prev) => ({ ...prev, groupId: "" }));
+      } catch (error) {
+        console.error("Ошибка загрузки групп:", error);
+        setGroups([]);
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      await axios.post(`${apiUrl}/create-order`, {
-        ...formData,
-        cart,
-      });
-
+      await axios.post(`${apiUrl}/create-order`, { ...formData, cart });
       alert("Заказ успешно оформлен!");
       clearCart();
     } catch (error) {
@@ -52,63 +62,47 @@ const Checkout = () => {
     <div className={styles.checkout}>
       <h2>Оформление заказа</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          Имя:
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Фамилия:
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Адрес школы:
-          <select
-            name="schoolId"
-            value={formData.schoolId}
-            onChange={handleChange}
-            required
-          >
+        <div className={styles.inputGroup}>
+          <label>Имя</label>
+          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label>Фамилия</label>
+          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label>Адрес школы</label>
+          <select name="schoolId" value={formData.schoolId} onChange={handleChange} required>
             <option value="">Выберите школу</option>
             {schools.map((school) => (
-              <option key={school.id} value={school.id}>
-                {school.address}
-              </option>
+              <option key={school.id} value={school.id}>{school.address}</option>
             ))}
           </select>
-        </label>
-        <label>
-          Телефон:
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Комментарии:
-          <textarea
-            name="comments"
-            value={formData.comments}
-            onChange={handleChange}
-          ></textarea>
-        </label>
-        <button type="submit" className={styles.submitButton}>
-          Оформить заказ
-        </button>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label>Группа</label>
+          <select name="groupId" value={formData.groupId} onChange={handleChange} disabled={!formData.schoolId} required>
+            <option value="">Выберите группу</option>
+            {groups.map((group) => (
+              <option key={group.id} value={group.id}>{group.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label>Телефон</label>
+          <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label>Комментарии</label>
+          <textarea name="comments" value={formData.comments} onChange={handleChange} />
+        </div>
+
+        <button type="submit" className={styles.submitButton}>Оформить заказ</button>
       </form>
     </div>
   );

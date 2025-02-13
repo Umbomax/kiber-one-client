@@ -5,11 +5,25 @@ import styles from './ProductCard.module.css';
 
 const ProductCard = ({ product }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [activeImage, setActiveImage] = useState(product.images[0]); // Текущее активное изображение
+  const [activeImage, setActiveImage] = useState(product.images[0]);
   const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
-  const cartItem = cart.find((item) => item.id === product.id);
+  const [selectedOptions, setSelectedOptions] = useState(() => {
+    if (!Array.isArray(product.selectors)) return {};
+    return product.selectors.reduce((acc, selector) => {
+      acc[selector.name] = selector.options?.[0] || ''; // Первый вариант по умолчанию
+      return acc;
+    }, {});
+  });
+
+  const cartItem = cart.find(
+    (item) => item.id === product.id && JSON.stringify(item.selectedOptions) === JSON.stringify(selectedOptions)
+  );
   const quantity = cartItem ? cartItem.quantity : 0;
+
+  const handleChange = (selectorName, optionValue) => {
+    setSelectedOptions((prev) => ({ ...prev, [selectorName]: optionValue }));
+  };
 
   return (
     <>
@@ -40,21 +54,24 @@ const ProductCard = ({ product }) => {
               key={index}
               src={img}
               alt={`${product.name} - ${index}`}
-              className={`${styles.thumbnail} ${
-                activeImage === img ? styles.activeThumbnail : ''
-              }`}
+              className={`${styles.thumbnail} ${activeImage === img ? styles.activeThumbnail : ''}`}
               onClick={() => setActiveImage(img)}
             />
           ))}
         </div>
+
         <p>{product.description}</p>
+
         {product.selectors && product.selectors.length > 0 && (
           <div className={styles.selectors}>
             {product.selectors.map((selector, index) => (
               <div key={index} className={styles.selector}>
                 <label>
                   {selector.name}
-                  <select>
+                  <select
+                    value={selectedOptions[selector.name]}
+                    onChange={(e) => handleChange(selector.name, e.target.value)}
+                  >
                     {selector.options.map((option, idx) => (
                       <option key={idx} value={option}>
                         {option}
@@ -66,14 +83,15 @@ const ProductCard = ({ product }) => {
             ))}
           </div>
         )}
+
         {quantity > 0 ? (
           <div className={styles.cartControls}>
-            <button onClick={() => removeFromCart(product)}>-</button>
+            <button onClick={() => removeFromCart(product, selectedOptions)}>-</button>
             <span>{quantity}</span>
-            <button onClick={() => addToCart(product)}>+</button>
+            <button onClick={() => addToCart(product, selectedOptions)}>+</button>
           </div>
         ) : (
-          <button onClick={() => addToCart(product)}>Добавить в корзину</button>
+          <button onClick={() => addToCart(product, selectedOptions)}>Добавить в корзину</button>
         )}
         <button onClick={() => setModalIsOpen(false)}>Закрыть</button>
       </ReactModal>

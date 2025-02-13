@@ -5,25 +5,29 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  const addToCart = (product) => {
+  const addToCart = (product, selectedOptions) => {
     setCart((prevCart) => {
-      const existingProduct = prevCart.find((item) => item.id === product.id);
+      const key = `${product.id}-${JSON.stringify(selectedOptions)}`;
+      const existingProduct = prevCart.find((item) => item.key === key);
+
       if (existingProduct) {
         return prevCart.map((item) =>
-          item.id === product.id
+          item.key === key
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prevCart, { ...product, quantity: 1 }];
+
+      return [...prevCart, { ...product, selectedOptions, quantity: 1, key }];
     });
   };
 
-  const removeFromCart = (product) => {
+  const removeFromCart = (product, selectedOptions) => {
+    const key = `${product.id}-${JSON.stringify(selectedOptions)}`;
     setCart((prevCart) =>
       prevCart
         .map((item) =>
-          item.id === product.id
+          item.key === key
             ? { ...item, quantity: item.quantity - 1 }
             : item
         )
@@ -41,4 +45,3 @@ export const CartProvider = ({ children }) => {
 };
 
 export default CartContext;
-    

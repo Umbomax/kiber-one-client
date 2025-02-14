@@ -30,7 +30,7 @@ const Cart = () => {
                         <tr>
                             <th>Изображение</th>
                             <th>Товар</th>
-                            <th>Управление</th>
+                            <th>Количество</th>
                             <th>Цена за шт.</th>
                             <th>Итого</th>
                         </tr>
@@ -61,11 +61,13 @@ const Cart = () => {
                                 <td>{item.price * item.quantity} киберонов</td>
                             </tr>
                         ))}
+                        <tr><td colSpan={5}><p className={styles.totalPrice}>Общая цена: {totalPrice} киберонов</p></td></tr>
+                        
                     </tbody>
+                    
                 </table>
             )}
             <div className={styles.cartFooter}>
-                <p>Общая цена: {totalPrice} киберонов</p>
                 <button onClick={clearCart} className={styles.clearButton}>
                     Очистить корзину
                 </button>

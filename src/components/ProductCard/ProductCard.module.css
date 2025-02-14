@@ -1,6 +1,6 @@
 .productCard {
-    width: 34rem;
-    min-height: 21rem;
+    width: 30rem;
+    min-height: 13rem;
     margin: 2rem;
     padding: 1rem;
     border: 1px solid #ddd;
@@ -209,7 +209,7 @@
     background: #005ecb;
   }
   
-  button {
+  /* button {
     padding: 12px 18px;
     border-radius: 12px;
     background: #007aff;
@@ -233,7 +233,8 @@
   
   button:last-child:hover {
     background: #cfcfcf;
-  }
+  } */
+
   .modalImage {
     max-width: 100%;
     max-height: 300px; /* Ограничение высоты */

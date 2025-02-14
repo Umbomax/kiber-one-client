@@ -1,0 +1,141 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #1a1616;
+    padding: 15px 20px;
+    height: 50px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+}
+
+.navItem {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.navItem:hover {
+    color: #f0f0f0;
+    transform: scale(1.1);
+}
+
+.cart {
+    position: relative;
+}
+
+.cartIcon {
+    width: 30px;
+    fill: white;
+    transition: transform 0.3s;
+}
+
+.cart:hover .cartIcon {
+    transform: scale(1.2);
+}
+
+.cartCount {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: white;
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.mobileMenu{
+    display: none;
+}
+/* Бургер-меню */
+.burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.line {
+    width: 30px;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.open:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.open:nth-child(2) {
+    opacity: 0;
+}
+
+.open:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Мобильное меню */
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+
+    .burger {
+        display: flex;
+    }
+
+    .mobileMenu {
+        display: block;
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 70%;
+        height: 60%;
+        background: #333;
+        padding: 20px;
+        transition: left 0.3s;
+    }
+
+    .show {
+        left: 0;
+    }
+
+    .closeMenu {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        color: white;
+        font-size: 24px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .menuItem {
+        display: block;
+        color: white;
+        font-size: 18px;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+    }
+}

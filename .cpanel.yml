@@ -1,0 +1,8 @@
+---
+deployment:
+  tasks:
+    - export NODE_VERSION=18
+    - /opt/cpanel/nvm/bin/nvm use $NODE_VERSION
+    - npm install
+    - npm run build
+    - rsync -a build/ /home/kibershops/public_html/

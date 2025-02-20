@@ -13,9 +13,7 @@
   }
   
   .cartTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 120px; /* Для места под фиксированный футер */
+    padding: 10px;
   }
   
   .cartTable thead th {
@@ -79,10 +77,11 @@
     gap: 20px;
   }
 
-  tr td p.totalPrice{
+  .totalPrice{
     font-size: 18px;
     font-weight: 500;
     margin: 0;
+    margin-top: 10px;
     color: #000;
   }
 
@@ -130,12 +129,6 @@
       display: none;
     }
   
-    .cartTable tbody tr {
-      display: flex;
-      flex-direction: column;
-      padding: 15px 0;
-      border-bottom: 1px solid #e8e8e8;
-    }
   
     .cartTable tbody td {
       padding: 8px 0;

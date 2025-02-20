@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import ProductList from '../../components/ProductList/ProductList';
-
+import styles from "./Main.module.css" 
 const Main = () => {
   const [cart, setCart] = useState([]);
 
@@ -21,7 +21,7 @@ const Main = () => {
     <div>
       <Header />
       <main>
-        <h1>Наши товары</h1>
+        <h1 className={styles.header}>Наши товары</h1>
         <ProductList onAddToCart={handleAddToCart} />
       </main>
     </div>

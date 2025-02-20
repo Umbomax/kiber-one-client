@@ -3,8 +3,10 @@ import CartContext from "../../context/CartContext";
 import axios from "axios";
 import styles from "./Checkout.module.css";
 import Header from "../../components/Header/Header";
+import Notification from "../../components/Notification/Notification"; 
 const Checkout = () => {
     const { cart, clearCart } = useContext(CartContext);
+    const [notification, setNotification] = useState(null);
     const [schools, setSchools] = useState([]);
     const [groups, setGroups] = useState([]);
     const [formData, setFormData] = useState({
@@ -49,9 +51,20 @@ const Checkout = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`${apiUrl}/create-order`, { ...formData, cart });
-            alert("Заказ успешно оформлен!");
+            const response = await axios.post(`${apiUrl}/create-order`, { ...formData, cart });
+            setNotification({
+                message: `Ваш заказ №${response.data.orderCode} оформлен!`,
+                orderCode: response.data.orderCode,
+            });
             clearCart();
+            setFormData({
+                firstName: "",
+                lastName: "",
+                schoolId: "",
+                groupId: "",
+                phone: "",
+                comments: "",
+            });
         } catch (error) {
             console.error("Ошибка при создании заказа:", error);
             alert("Не удалось оформить заказ");
@@ -61,6 +74,7 @@ const Checkout = () => {
     return (
         <div>
             <Header></Header>
+            {notification && <Notification message={notification.message} orderCode={notification.orderCode} />}
             <div className={styles.checkout}>
                 <h2>Оформление заказа</h2>
                 <form onSubmit={handleSubmit}>

@@ -12,7 +12,7 @@ const Notification = ({ message, orderCode }) => {
         <div className={styles.notificationWrapper}>
             <div className={styles.notification}>
                 <p>{message}</p>
-                <button onClick={() => navigate(`/orders}`)}>Посмотреть заказ</button>
+                <button onClick={() => navigate(`/orders`)}>Посмотреть заказ</button>
                 <button onClick={() => navigate(`/`)}>Продолжить покупки</button>
             </div>
         </div>

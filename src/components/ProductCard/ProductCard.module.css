@@ -284,7 +284,9 @@
     .modal {
       width: 90%;
     }
-  
+    .cartControls{
+      justify-content: center;
+    }
     .modalContent {
       max-height: 50vh;
     }

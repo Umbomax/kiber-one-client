@@ -3,7 +3,7 @@ import CartContext from "../../context/CartContext";
 import axios from "axios";
 import styles from "./Checkout.module.css";
 import Header from "../../components/Header/Header";
-import Notification from "../../components/Notification/Notification"; 
+import Notification from "../../components/Notification/Notification";
 const Checkout = () => {
     const { cart, clearCart } = useContext(CartContext);
     const [notification, setNotification] = useState(null);
@@ -14,7 +14,7 @@ const Checkout = () => {
         lastName: "",
         schoolId: "",
         groupId: "",
-        phone: "",
+        phone: "+375",
         comments: "",
     });
 
@@ -47,7 +47,22 @@ const Checkout = () => {
             }
         }
     };
-
+    const handlePhoneChange = (e) => {
+        let value = e.target.value;
+    
+        // Убираем все символы, кроме цифр
+        value = value.replace(/\D/g, "");
+    
+        // Убедимся, что номер начинается с +375 и отображаем его всегда
+        if (value.length <= 9) {
+            value = `+375${value.slice(3, 5)}${value.slice(5, 12)}`;
+        } else {
+            value = `+375${value.slice(3, 5)}${value.slice(5, 12)}`;
+        }
+    
+        // Обновляем состояние
+        setFormData((prev) => ({ ...prev, phone: value }));
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -76,7 +91,7 @@ const Checkout = () => {
             <Header></Header>
             {notification && <Notification message={notification.message} orderCode={notification.orderCode} />}
             <div className={styles.checkout}>
-                <h2>Оформление заказа</h2>
+                <h2 className={styles.header}>Оформление заказа</h2>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.inputGroup}>
                         <label>Имя</label>
@@ -114,7 +129,14 @@ const Checkout = () => {
 
                     <div className={styles.inputGroup}>
                         <label>Телефон</label>
-                        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+                        <input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handlePhoneChange}
+                            required
+                            maxLength={16}
+                        />
                     </div>
 
                     <div className={styles.inputGroup}>

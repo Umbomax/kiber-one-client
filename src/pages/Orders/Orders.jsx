@@ -33,7 +33,7 @@ const Orders = () => {
     return (
         <div className={styles.ordersPage}>
             <Header />
-            <h2>Просмотр заказа</h2>
+            <h2 className={styles.header}> Просмотр заказа</h2>
             <div className={styles.inputContainer}>
                 <input
                     type="text"

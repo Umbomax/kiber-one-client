@@ -19,7 +19,11 @@
   }
   
   
-  
+  .header{
+    margin: 0;
+    padding-top: 100px;
+    text-align: center;
+  }
   
   .searchButton {
     padding: 12px 20px;

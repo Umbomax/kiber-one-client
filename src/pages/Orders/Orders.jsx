@@ -24,7 +24,7 @@ const Orders = () => {
             }
             const data = await response.json();
             setOrder(data);
-            console.log(data)
+            console.log(data);
         } catch (err) {
             setError(err.message);
         }
@@ -35,19 +35,18 @@ const Orders = () => {
             <Header />
             <h2 className={styles.header}> Просмотр заказа</h2>
             <div className={styles.inputContainer}>
-                <input
-                    type="text"
-                    value={orderCode}
-                    onChange={(e) => setOrderCode(e.target.value)}
-                    placeholder="Введите номер заказа"
-                    className={styles.inputField}
-                />
+                <input type="text" value={orderCode} onChange={(e) => setOrderCode(e.target.value)} placeholder="Введите номер заказа" className={styles.inputField} />
                 <button onClick={fetchOrder} className={styles.searchButton}>
                     Найти
                 </button>
             </div>
             {error && <p className={styles.error}>{error}</p>}
             {order && <OrderList orders={order.products} />}
+            {order && (
+                <div className={styles.totalPrice}>
+                    <strong>Итого:</strong> {order.total_price} киберонов
+                </div>
+            )}
         </div>
     );
 };

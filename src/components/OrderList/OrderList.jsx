@@ -11,7 +11,7 @@ const OrderList = ({ orders, removeFromCart, addToCart, isCart }) => {
                     <th>Товар</th>
                     <th>Количество</th>
                     <th>Цена за шт.</th>
-                    <th>Итого</th>
+                    <th>Сумма</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,11 +38,11 @@ const OrderList = ({ orders, removeFromCart, addToCart, isCart }) => {
                                     <button onClick={() => addToCart(item, item.selectedOptions)}>+</button>
                                 </div>
                             ) : (
-                                <span>{item.quantity}</span>
+                                <span><span className={styles.mobileDecsr}>Количество: </span> {item.quantity}</span>
                             )}
                         </td>
-                        <td>{item.price} киберонов</td>
-                        <td>Сумма: {item.price * item.quantity} киберонов</td>
+                        <td><span className={styles.mobileDecsr}>Цена за шт. - </span> {item.price} киберонов</td>
+                        <td>{item.price * item.quantity} киберонов</td>
                     </tr>
                 ))}
             </tbody>

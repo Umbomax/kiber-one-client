@@ -94,13 +94,13 @@ const Checkout = () => {
                 <h2 className={styles.header}>Оформление заказа</h2>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.inputGroup}>
-                        <label>Имя</label>
-                        <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+                        <label>Имя ученика</label>
+                        <input placeholder="Укажите имя ученика" type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
                     </div>
 
                     <div className={styles.inputGroup}>
-                        <label>Фамилия</label>
-                        <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
+                        <label>Фамилия ученика</label>
+                        <input placeholder="Укажите фамилию ученика" type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
                     </div>
 
                     <div className={styles.inputGroup}>
@@ -141,7 +141,7 @@ const Checkout = () => {
 
                     <div className={styles.inputGroup}>
                         <label>Комментарии</label>
-                        <textarea name="comments" value={formData.comments} onChange={handleChange} />
+                        <textarea placeholder="Укажите здесь сколько у вас сейчас киберонов, а также любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} />
                     </div>
 
                     <button type="submit" className={styles.submitButton}>

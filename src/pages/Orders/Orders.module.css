@@ -44,7 +44,15 @@
   .searchButton:active {
     transform: scale(0.98);
   }
-  
+  .totalPrice {
+    margin: 20px;
+    padding-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+
+}
+
   @media (max-width: 480px) {
     .inputContainer {
       flex-direction: column;
@@ -57,7 +65,9 @@
     }
   
     .searchButton {
-      width: 100%;
+      margin-top: 20px;
+      background-color: #0071e3;
+      width: 50%;
     }
   }
   

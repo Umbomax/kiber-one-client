@@ -4,11 +4,14 @@ import axios from "axios";
 import styles from "./Checkout.module.css";
 import Header from "../../components/Header/Header";
 import Notification from "../../components/Notification/Notification";
+
 const Checkout = () => {
     const { cart, clearCart } = useContext(CartContext);
     const [notification, setNotification] = useState(null);
     const [schools, setSchools] = useState([]);
     const [groups, setGroups] = useState([]);
+    const [isPhoneValid, setIsPhoneValid] = useState(false);
+
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -47,24 +50,36 @@ const Checkout = () => {
             }
         }
     };
+
     const handlePhoneChange = (e) => {
-        let value = e.target.value;
-    
-        // Убираем все символы, кроме цифр
-        value = value.replace(/\D/g, "");
-    
-        // Убедимся, что номер начинается с +375 и отображаем его всегда
-        if (value.length <= 9) {
-            value = `+375${value.slice(3, 5)}${value.slice(5, 12)}`;
-        } else {
-            value = `+375${value.slice(3, 5)}${value.slice(5, 12)}`;
+        let value = e.target.value.replace(/\D/g, ""); // Убираем все, кроме цифр
+
+        if (value.startsWith("375")) {
+            value = `+${value}`;
+        } else if (value.startsWith("75")) {
+            value = `+3${value}`;
+        } else if (value.startsWith("5")) {
+            value = `+375${value.substring(1)}`;
         }
-    
-        // Обновляем состояние
+
+        if (!value.startsWith("+375")) {
+            value = "+375";
+        }
+
+        // Проверка формата телефона
+        const phoneRegex = /^\+375(25|29|33|44)\d{7}$/;
+        setIsPhoneValid(phoneRegex.test(value));
+
         setFormData((prev) => ({ ...prev, phone: value }));
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!isPhoneValid) {
+            alert("Введите корректный номер телефона");
+            return;
+        }
+
         try {
             const response = await axios.post(`${apiUrl}/create-order`, { ...formData, cart });
             setNotification({
@@ -77,18 +92,18 @@ const Checkout = () => {
                 lastName: "",
                 schoolId: "",
                 groupId: "",
-                phone: "",
+                phone: "+375",
                 comments: "",
             });
         } catch (error) {
             console.error("Ошибка при создании заказа:", error);
-            alert("Не удалось оформить заказ");
+            alert(error.response?.data?.message || "Не удалось оформить заказ");
         }
     };
 
     return (
         <div>
-            <Header></Header>
+            <Header />
             {notification && <Notification message={notification.message} orderCode={notification.orderCode} />}
             <div className={styles.checkout}>
                 <h2 className={styles.header}>Оформление заказа</h2>
@@ -129,14 +144,8 @@ const Checkout = () => {
 
                     <div className={styles.inputGroup}>
                         <label>Телефон</label>
-                        <input
-                            type="tel"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handlePhoneChange}
-                            required
-                            maxLength={16}
-                        />
+                        <input type="tel" name="phone" value={formData.phone} onChange={handlePhoneChange} required maxLength={13} className={!isPhoneValid ? styles.invalid : ""} />
+                        {!isPhoneValid && <small className={styles.errorText}>Формат: +375 (25/29/33/44) 1234567</small>}
                     </div>
 
                     <div className={styles.inputGroup}>
@@ -144,7 +153,7 @@ const Checkout = () => {
                         <textarea placeholder="Укажите здесь сколько у вас сейчас киберонов, а также любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} />
                     </div>
 
-                    <button type="submit" className={styles.submitButton}>
+                    <button type="submit" className={styles.submitButton} disabled={!isPhoneValid}>
                         Оформить заказ
                     </button>
                 </form>

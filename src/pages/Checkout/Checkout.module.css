@@ -76,3 +76,12 @@
     background: #004494;
   }
   
+  .errorText {
+    color: #ff3b30;
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  .submitButton:disabled{
+    background: gray
+  }

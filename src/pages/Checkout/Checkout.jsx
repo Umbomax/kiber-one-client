@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./Checkout.module.css";
 import Header from "../../components/Header/Header";
 import Notification from "../../components/Notification/Notification";
+import ErrorNotification from "../../components/ErrorNotification/ErrorNotification";
 
 const Checkout = () => {
     const { cart, clearCart } = useContext(CartContext);
@@ -11,6 +12,7 @@ const Checkout = () => {
     const [schools, setSchools] = useState([]);
     const [groups, setGroups] = useState([]);
     const [isPhoneValid, setIsPhoneValid] = useState(false);
+    const [error, setError] = useState(null);
 
     const [formData, setFormData] = useState({
         firstName: "",
@@ -29,7 +31,7 @@ const Checkout = () => {
                 const response = await axios.get(`${apiUrl}/add-school`);
                 setSchools(response.data);
             } catch (error) {
-                console.error("Ошибка загрузки школ:", error);
+                setError("Ошибка загрузки школ");
             }
         };
         fetchSchools();
@@ -76,7 +78,7 @@ const Checkout = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!isPhoneValid) {
-            alert("Введите корректный номер телефона");
+            setError("Введите корректный номер телефона");
             return;
         }
 
@@ -97,7 +99,7 @@ const Checkout = () => {
             });
         } catch (error) {
             console.error("Ошибка при создании заказа:", error);
-            alert(error.response?.data?.message || "Не удалось оформить заказ");
+            setError(error.response?.data?.message || "Не удалось оформить заказ");
         }
     };
 
@@ -105,6 +107,7 @@ const Checkout = () => {
         <div>
             <Header />
             {notification && <Notification message={notification.message} orderCode={notification.orderCode} />}
+            {error && <ErrorNotification message={error} onClose={() => setError(null)} />}
             <div className={styles.checkout}>
                 <h2 className={styles.header}>Оформление заказа</h2>
                 <form onSubmit={handleSubmit}>

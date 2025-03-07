@@ -38,6 +38,7 @@ html {
     width: 100%;
     display: inline-block;
     height: 100vh;
+    position: relative;
 }
 
 .caption {

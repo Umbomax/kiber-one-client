@@ -143,6 +143,7 @@ const Checkout = () => {
                                 </option>
                             ))}
                         </select>
+                        <p>❗️Внимательно выбирайте свой город, адрес школы и группу, чтобы Ваш заказ был доставлен верно</p>
                     </div>
 
                     <div className={styles.inputGroup}>
@@ -153,7 +154,7 @@ const Checkout = () => {
 
                     <div className={styles.inputGroup}>
                         <label>Комментарии</label>
-                        <textarea placeholder="Укажите здесь сколько у вас сейчас киберонов, а также любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} />
+                        <textarea placeholder="Напиши сюда сколько у тебя КИБЕРОНОВ и любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} />
                     </div>
 
                     <button type="submit" className={styles.submitButton} disabled={!isPhoneValid}>

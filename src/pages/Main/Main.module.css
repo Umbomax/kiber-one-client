@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
 main {
     background-color: #f5f5f5;
+    font-family: 'Inter', sans-serif;
 }
 html {
     scroll-behavior: smooth;
@@ -17,6 +20,7 @@ html {
 }
 .image {
     background-image: url(../../img/___9-1.jpg);
+    filter: brightness(88%);
 }
 
 .slide .image {
@@ -26,9 +30,8 @@ html {
     background-size: cover;
     background-color: #000;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center;
     text-align: center;
-    vertical-align: middle;
     position: relative;
     background-attachment: fixed;
     overflow: hidden;
@@ -97,6 +100,27 @@ html {
     line-height: 1.8;
     color: #333;
 }
+.container {
+    padding: 20px;
+    text-align: center;
+}
+
+.container h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.container p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.highlight {
+    font-weight: 600;
+    
+}
+
 
 @media (max-width: 1024px) {
     .title {
@@ -124,6 +148,7 @@ html {
     .ussmore a {
         font-size: 15px;
         padding: 15px 25px;
+
     }
     .caption {
         align-items: center;
@@ -133,9 +158,24 @@ html {
         font-size: 18px;
         padding: 0 20px;
     }
+    .container {
+        padding: 15px;
+    }
+    .container h1 {
+        font-size: 20px;
+    }
+    .container p {
+        font-size: 16px;
+    }
 }
 
 @media (max-width: 480px) {
+    .ussmore a{
+        background-color: #333;
+    }
+    .image {
+        background-image: url(../../img/___9-1mob.png);
+    }
     .uss_shop_content{
         padding: 0 15px;
     }

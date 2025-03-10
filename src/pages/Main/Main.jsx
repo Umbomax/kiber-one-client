@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../../components/Header/Header";
 import ProductList from "../../components/ProductList/ProductList";
 import styles from "./Main.module.css";
-import background from "../../img/___9-1.jpg";
+// import background from "../../img/___9-1.jpg";
 const Main = () => {
     const [cart, setCart] = useState([]);
 

@@ -1,12 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
-main {
+html {
+    scroll-behavior: smooth;
+}
+
+body {
     background-color: #f5f5f5;
     font-family: 'Inter', sans-serif;
 }
-html {
-    scroll-behavior: smooth;
-    }
+
 .header {
     text-align: center;
     font-weight: 300;
@@ -14,43 +16,40 @@ html {
     font-size: 28px;
     line-height: 1.6;
 }
-.anchor{
+
+.anchor {
     position: absolute;
     bottom: 50px;
 }
+
 .image {
     background-image: url(../../img/___9-1.jpg);
     filter: brightness(88%);
     display: block;
     width: 100%;
     height: 100%;
-    background-size: cover;
     background-color: #000;
-    background-repeat: no-repeat;
-    background-position: center;
     text-align: center;
     position: relative;
-    background-attachment: fixed;
     overflow: hidden;
 }
 
-
 .slide {
     width: 100%;
-    display: inline-block;
     height: 100vh;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .caption {
-    max-width: calc(100% - 140px);
-    width: 1500px;
+    max-width: 1360px;
+    width: calc(100% - 140px);
     position: absolute;
-    left: 10px;
-    right: 10px;
     top: 50%;
-    transform: translateY(-50%);
-    margin: 0 auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
     white-space: normal;
     display: flex;
     flex-direction: column;
@@ -59,7 +58,6 @@ html {
 }
 
 .title {
-    display: block;
     padding: 2px 0;
     font-size: 48px;
     line-height: normal;
@@ -69,20 +67,19 @@ html {
 
 .ussmore {
     display: block;
-    min-width: 100%;
     margin-top: 70px;
+    width: 100%;
+    text-align: center;
 }
 
 .ussmore a {
-    position: relative;
     background: #000;
     color: #fff;
     display: inline-block;
     font-size: 17px;
     font-weight: 700;
-    line-height: 1;
-    text-align: center;
     padding: 21px 30px;
+    text-align: center;
     text-decoration: none;
     min-width: 190px;
     border-radius: 30px;
@@ -94,10 +91,11 @@ html {
     font-size: 20px;
     max-width: 1080px;
     margin: 0 auto;
-
     line-height: 1.8;
     color: #333;
+    padding: 0 20px;
 }
+
 .container {
     padding: 20px;
     text-align: center;
@@ -116,9 +114,17 @@ html {
 
 .highlight {
     font-weight: 600;
-    
 }
 
+
+@media (min-width: 1024px) {
+    .image {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+}
 
 @media (max-width: 1024px) {
     .title {
@@ -127,11 +133,6 @@ html {
     }
     .caption {
         width: 90%;
-        left: 5%;
-        right: 5%;
-    }
-    .uss_shop_content{
-        padding: 0 15px;
     }
 }
 
@@ -146,15 +147,10 @@ html {
     .ussmore a {
         font-size: 15px;
         padding: 15px 25px;
-
     }
     .caption {
         align-items: center;
         text-align: center;
-    }
-    .uss_shop_content {
-        font-size: 18px;
-        padding: 0 20px;
     }
     .container {
         padding: 15px;
@@ -168,32 +164,22 @@ html {
 }
 
 @media (max-width: 480px) {
-    .ussmore a{
+    .ussmore a {
         background-color: #333;
+        font-size: 14px;
+        padding: 12px 20px;
     }
     .image {
         background-image: url(../../img/___9-1mob.png);
-        background-size: auto;
-        height: 100%;
-        width: auto;
-        overflow: hidden;
         background-position: bottom;
-    }
-    .uss_shop_content{
-        padding: 0 15px;
     }
     .title {
         font-size: 22px;
         padding-right: 5%;
     }
-    .ussmore a {
-        font-size: 14px;
-        padding: 12px 20px;
-    }
     .header {
         font-size: 24px;
         margin: 10px 0 30px;
-        padding: 0 2px;
     }
     .uss_shop_content {
         font-size: 16px;

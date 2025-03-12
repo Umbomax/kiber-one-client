@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./OrderList.module.css";
 
 const OrderList = ({ orders, removeFromCart, addToCart, isCart }) => {
-    console.log(orders);
     return (
         <table className={styles.orderTable}>
             <thead>

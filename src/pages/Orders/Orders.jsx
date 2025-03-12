@@ -24,7 +24,6 @@ const Orders = () => {
             }
             const data = await response.json();
             setOrder(data);
-            console.log(data);
         } catch (err) {
             setError(err.message);
         }

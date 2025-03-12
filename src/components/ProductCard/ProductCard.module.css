@@ -200,8 +200,8 @@ select:focus {
 }
 .closeButton {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: -5px;
+  right: 8px;
   background: transparent;
   border: none;
   font-size: 48px;

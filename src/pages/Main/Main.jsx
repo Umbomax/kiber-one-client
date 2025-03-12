@@ -27,7 +27,7 @@ const Main = () => {
                         <div className={styles.caption}>
                             <p className={styles.title}>Магазин КиберПриятностей для резидентов KIBERone</p>
                             <div className={styles.ussmore}>
-                                <a href="#catalog-block" tabindex="0">
+                                <a href="#catalog-block" tabIndex="0">
                                     Выбрать
                                 </a>
                             </div>

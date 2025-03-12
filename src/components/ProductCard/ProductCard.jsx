@@ -34,6 +34,9 @@ const ProductCard = ({ product }) => {
 
             <ReactModal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className={styles.modal} overlayClassName={styles.overlay}>
                 <div className={styles.modalContent}>
+                    <button className={styles.closeButton} onClick={() => setModalIsOpen(false)}>
+                        ×
+                    </button>
                     <h2>{product.name}</h2>
                     <img src={activeImage} alt={product.name} className={styles.modalImage} />
                     <div className={styles.thumbnailContainer}>

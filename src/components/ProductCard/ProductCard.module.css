@@ -198,16 +198,34 @@ select:focus {
 .modalFooter button:last-child:hover {
   background: #cfcfcf;
 }
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 48px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #007aff;
+}
 
 @media (max-width: 1024px) {
   .modal {
     width: 90%;
-    max-height: 78vh; 
+    max-height: 78dvh; 
   }
   .modalContent {
-    max-height: 60vh;
+    max-height: 60dvh;
   }
   .modalImage {
     max-height: 250px;
+  }
+  .closeButton{
+    font-size: 28px;
   }
 }

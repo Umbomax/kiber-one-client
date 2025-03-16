@@ -154,7 +154,7 @@ const Checkout = () => {
 
                     <div className={styles.inputGroup}>
                         <label>Комментарии</label>
-                        <textarea placeholder="Напиши сюда сколько у тебя КИБЕРОНОВ и любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} />
+                        <textarea placeholder="Напиши сюда сколько у тебя КИБЕРОНОВ и любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} required/>
                     </div>
 
                     <button type="submit" className={styles.submitButton} disabled={!isPhoneValid}>

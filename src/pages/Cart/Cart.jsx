@@ -1,4 +1,4 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
 import CartContext from "../../context/CartContext";
 import styles from "./Cart.module.css";
@@ -21,12 +21,15 @@ const Cart = () => {
 
     return (
         <div className={styles.cart}>
-            <Header></Header>
+            <Header />
             {error && <ErrorNotification message={error} onClose={() => setError(null)} />}
-            <h2>Корзина</h2>
-            <div className={styles.cartTable}>
-                {cart.length === 0 ? <p>Корзина пуста</p> : <OrderList orders={cart} removeFromCart={removeFromCart} addToCart={addToCart} isCart={true} />}
-                <div className={styles.totalPrice}>Общая цена: {totalPrice} киберонов</div>
+            <div className={styles.container}>
+                <h2>Корзина</h2>
+                <div className={styles.cartTable}>
+                    {cart.length === 0 ? <p>Корзина пуста</p> : <OrderList orders={cart} removeFromCart={removeFromCart} addToCart={addToCart} isCart={true} />}
+                    <div className={styles.totalPrice}>Общая цена: {totalPrice} киберонов</div>
+                </div>
+                
                 <div className={styles.cartFooter}>
                     <button onClick={clearCart} className={styles.clearButton}>
                         Очистить корзину

@@ -1,32 +1,64 @@
 html {
     overflow-y: scroll;
 }
-
-.header {
-    box-sizing: border-box;
-    margin: 0;
+.header_wrapper{
     position: fixed;
+    
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
     background-color: #1a1616;
-    padding: 15px 20px;
     z-index: 10000;
 }
+.header {
+    box-sizing: border-box;
+    margin: auto;
+    max-width: 1440px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Логотип слева, корзина справа */
+    padding: 10px 20px;
+
+}
+
+.logo {
+    flex: 0 0 auto; /* Фиксированная ширина для логотипа */
+}
+.header__left,
+.header__right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    
+}
+
+.header__left {
+    justify-content: flex-start; /* Логотип прижат влево */
+}
+
+.header__right {
+    justify-content: flex-end; /* Корзина прижата вправо */
+}
+.nav {
+    flex: 1; /* Занимает все доступное пространство */
+    display: flex;
+    justify-content: center; /* Центрирование навигации */
+    gap: 20px;
+}
+
+.cart {
+    position: relative;
+    flex: 0 0 auto; /* Фиксированная ширина для корзины */
+}
+
 
 .logo img {
     height: 40px;
 }
 
-.nav {
-    display: flex;
-    gap: 20px;
-}
 
 .navItem {
     color: white;
     font-size: 18px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
     text-decoration: none;
     transition: color 0.3s, transform 0.3s;
 }
@@ -36,9 +68,6 @@ html {
     transform: scale(1.1);
 }
 
-.cart {
-    position: relative;
-}
 
 .cartIcon {
     width: 30px;
@@ -101,9 +130,13 @@ html {
     .nav {
         display: none;
     }
+    .header__left, .header__right{
+        flex: none;
+    }
 
     .burger {
         display: flex;
+        
     }
 
     .mobileMenu {

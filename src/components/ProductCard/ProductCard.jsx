@@ -33,10 +33,11 @@ const ProductCard = ({ product }) => {
             </div>
 
             <ReactModal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className={styles.modal} overlayClassName={styles.overlay}>
-                <div className={styles.modalContent}>
-                    <button className={styles.closeButton} onClick={() => setModalIsOpen(false)}>
+            <button className={styles.closeButton} onClick={() => setModalIsOpen(false)}>
                         ×
                     </button>
+                <div className={styles.modalContent}>
+                    
                     <h2>{product.name}</h2>
                     <img src={activeImage} alt={product.name} className={styles.modalImage} />
                     <div className={styles.thumbnailContainer}>

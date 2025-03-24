@@ -26,17 +26,28 @@ const Cart = () => {
             <div className={styles.container}>
                 <h2>Корзина</h2>
                 <div className={styles.cartTable}>
-                    {cart.length === 0 ? <p>Корзина пуста</p> : <OrderList orders={cart} removeFromCart={removeFromCart} addToCart={addToCart} isCart={true} />}
-                    <div className={styles.totalPrice}>Общая цена: {totalPrice} киберонов</div>
+                    {cart.length === 0 ? <p className={styles.emptyCart}>Корзина пуста</p> : <OrderList orders={cart} removeFromCart={removeFromCart} addToCart={addToCart} isCart={true} />}
+                    {cart.length === 0 ? null : <div className={styles.totalPrice}>Общая цена: {totalPrice} киберонов</div>}
                 </div>
-                
+
                 <div className={styles.cartFooter}>
                     <button onClick={clearCart} className={styles.clearButton}>
                         Очистить корзину
                     </button>
-                    <button onClick={handleCheckout} className={styles.checkoutButton}>
-                        Перейти к оформлению
-                    </button>
+                    {cart.length === 0 ? (
+                        <button
+                            onClick={() => {
+                                navigate("/");
+                            }}
+                            className={styles.checkoutButton}
+                        >
+                            На главную
+                        </button>
+                    ) : (
+                        <button onClick={handleCheckout} className={styles.checkoutButton}>
+                            Перейти к оформлению
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

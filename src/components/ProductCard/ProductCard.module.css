@@ -140,6 +140,7 @@ select:focus {
     display: flex;
     flex-direction: column;
     text-align: center;
+    position: relative;
 }
 
 .modalContent {
@@ -195,14 +196,15 @@ select:focus {
 
 .closeButton {
     position: absolute;
-    top: -5px;
-    right: 8px;
+    top: 12px;
+    right: 32px;
     background: transparent;
     border: none;
     font-size: 48px;
     cursor: pointer;
     color: #333;
     transition: color 0.2s ease;
+    z-index: 1000;
 }
 
 .closeButton:hover {

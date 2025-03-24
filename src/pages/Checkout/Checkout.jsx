@@ -13,7 +13,8 @@ const Checkout = () => {
     const [groups, setGroups] = useState([]);
     const [isPhoneValid, setIsPhoneValid] = useState(false);
     const [error, setError] = useState(null);
-
+    const [isAgreed, setIsAgreed] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -75,13 +76,20 @@ const Checkout = () => {
         setFormData((prev) => ({ ...prev, phone: value }));
     };
 
+    const handleCheckboxChange = () => {
+        setIsAgreed((prev) => !prev);
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!isPhoneValid) {
             setError("Введите корректный номер телефона");
             return;
         }
-
+        if (!isAgreed) {
+            setError("Необходимо согласие на обработку персональных данных");
+            return;
+        }
+        setIsSubmitting(true);
         try {
             const response = await axios.post(`${apiUrl}/create-order`, { ...formData, cart });
             setNotification({
@@ -100,6 +108,8 @@ const Checkout = () => {
         } catch (error) {
             console.error("Ошибка при создании заказа:", error);
             setError(error.response?.data?.message || "Не удалось оформить заказ");
+        }finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -156,8 +166,11 @@ const Checkout = () => {
                         <label>Комментарии</label>
                         <textarea placeholder="Напиши сюда сколько у тебя КИБЕРОНОВ и любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} required/>
                     </div>
-
-                    <button type="submit" className={styles.submitButton} disabled={!isPhoneValid}>
+                    <div className={styles.checkboxGroup}>
+                        <input type="checkbox" id="agreement" checked={isAgreed} onChange={handleCheckboxChange} required/>
+                        <label htmlFor="agreement">Согласен на обработку персональных данных</label>
+                    </div>
+                    <button type="submit" className={styles.submitButton} disabled={!isPhoneValid || isSubmitting}>
                         Оформить заказ
                     </button>
                 </form>

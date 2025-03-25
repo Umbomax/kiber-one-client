@@ -24,7 +24,7 @@ body {
 
 .image {
     background-image: url(../../img/___9-1.jpg);
-    filter: brightness(88%);
+    filter: brightness(85%);
     display: block;
     width: 100%;
     height: 100%;
@@ -69,7 +69,8 @@ body {
     display: block;
     margin-top: 70px;
     width: 100%;
-    text-align: center;
+    text-align: left;
+
 }
 
 .ussmore a {
@@ -84,6 +85,7 @@ body {
     min-width: 190px;
     border-radius: 30px;
     text-transform: uppercase;
+    box-sizing: content-box;
 }
 
 .uss_shop_content {
@@ -97,25 +99,33 @@ body {
 }
 
 .container {
-    padding: 20px;
-    text-align: center;
+    max-width: 1440px;
+    margin: auto;
+    padding: 10px 20px;
+    text-align: justify;
 }
 
 .container h1 {
     font-size: 24px;
     font-weight: 600;
+    text-align: center;
 }
+
 
 .container p {
     font-size: 18px;
-    line-height: 1.6;
-    margin: 10px 0;
+    line-height: 1.4;
+    margin: 5px 0;
 }
 
 .highlight {
     font-weight: 600;
 }
-
+.highlight>b{
+    color: red;
+    font-weight: 900;
+    font-size: 20px;
+}
 
 @media (min-width: 1024px) {
     .image {
@@ -143,6 +153,7 @@ body {
     }
     .ussmore {
         margin-top: 40px;
+        text-align: center;
     }
     .ussmore a {
         font-size: 15px;
@@ -156,10 +167,19 @@ body {
         padding: 15px;
     }
     .container h1 {
-        font-size: 20px;
+        font-size: 22px;
     }
     .container p {
         font-size: 16px;
+        margin: 4px 0;
+    }
+    .highlight>b{
+
+        font-size: 16px;
+    }
+    .image{
+        filter: contrast(80%);
+        filter: brightness(70%);
     }
 }
 
@@ -183,5 +203,11 @@ body {
     }
     .uss_shop_content {
         font-size: 16px;
+    }
+    .container h1 {
+        font-size: 20px;
+    }
+    .container p {
+        font-size: 14px;
     }
 }

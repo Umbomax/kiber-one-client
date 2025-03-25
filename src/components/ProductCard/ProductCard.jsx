@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import ReactModal from "react-modal";
 import CartContext from "../../context/CartContext";
 import styles from "./ProductCard.module.css";
-
+import { Link } from "react-router-dom";
 const ProductCard = ({ product }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [activeImage, setActiveImage] = useState(product.images[0]);
@@ -33,10 +33,11 @@ const ProductCard = ({ product }) => {
             </div>
 
             <ReactModal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className={styles.modal} overlayClassName={styles.overlay}>
-                <div className={styles.modalContent}>
-                    <button className={styles.closeButton} onClick={() => setModalIsOpen(false)}>
+            <button className={styles.closeButton} onClick={() => setModalIsOpen(false)}>
                         ×
                     </button>
+                <div className={styles.modalContent}>
+                    
                     <h2>{product.name}</h2>
                     <img src={activeImage} alt={product.name} className={styles.modalImage} />
                     <div className={styles.thumbnailContainer}>
@@ -76,14 +77,16 @@ const ProductCard = ({ product }) => {
                 <div className={styles.modalFooter}>
                     {quantity > 0 ? (
                         <div className={styles.cartControls}>
-                            <button onClick={() => removeFromCart(product, selectedOptions)}>-</button>
+                            <button className={styles.footer_Btn} onClick={() => removeFromCart(product, selectedOptions)}>-</button>
                             <span>{quantity}</span>
-                            <button onClick={() => addToCart(product, selectedOptions)}>+</button>
+                            <button className={styles.footer_Btn} onClick={() => addToCart(product, selectedOptions)}>+</button>
                         </div>
                     ) : (
-                        <button onClick={() => addToCart(product, selectedOptions)}>Добавить в корзину</button>
+                        <button className={styles.footer_Btn} onClick={() => addToCart(product, selectedOptions)}>Добавить в корзину</button>
                     )}
-                    <button onClick={() => setModalIsOpen(false)}>Закрыть</button>
+                    <Link to="/cart" className={styles.footer_Btn}>
+                        Перейти в корзину
+                    </Link>
                 </div>
             </ReactModal>
         </>

@@ -18,7 +18,11 @@
     transition: all 0.3s ease;
   }
   
-  
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+  }
   .header{
     margin: 0;
     padding-top: 100px;

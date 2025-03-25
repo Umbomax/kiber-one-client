@@ -32,20 +32,23 @@ const Orders = () => {
     return (
         <div className={styles.ordersPage}>
             <Header />
-            <h2 className={styles.header}> Просмотр заказа</h2>
-            <div className={styles.inputContainer}>
-                <input type="text" value={orderCode} onChange={(e) => setOrderCode(e.target.value)} placeholder="Введите номер заказа" className={styles.inputField} />
-                <button onClick={fetchOrder} className={styles.searchButton}>
-                    Найти
-                </button>
-            </div>
-            {error && <p className={styles.error}>{error}</p>}
-            {order && <OrderList orders={order.products} />}
-            {order && (
-                <div className={styles.totalPrice}>
-                    <strong>Итого:</strong> {order.total_price} киберонов
+            <div className={styles.container}>
+                {" "}
+                <h2 className={styles.header}> Просмотр заказа</h2>
+                <div className={styles.inputContainer}>
+                    <input type="text" value={orderCode} onChange={(e) => setOrderCode(e.target.value)} placeholder="Введите номер заказа" className={styles.inputField} />
+                    <button onClick={fetchOrder} className={styles.searchButton}>
+                        Найти
+                    </button>
                 </div>
-            )}
+                {error && <p className={styles.error}>{error}</p>}
+                {order && <OrderList orders={order.products} />}
+                {order && (
+                    <div className={styles.totalPrice}>
+                        <strong>Итого:</strong> {order.total_price} киберонов
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

@@ -70,6 +70,7 @@ body {
     margin-top: 70px;
     width: 100%;
     text-align: left;
+
 }
 
 .ussmore a {
@@ -84,6 +85,7 @@ body {
     min-width: 190px;
     border-radius: 30px;
     text-transform: uppercase;
+    box-sizing: content-box;
 }
 
 .uss_shop_content {

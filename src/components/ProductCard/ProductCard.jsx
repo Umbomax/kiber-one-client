@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 const ProductCard = ({ product }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [activeImage, setActiveImage] = useState(() => {
-        const images = Array.isArray(product.images) ? product.images : product.images.split(',');
+        const images = Array.isArray(product.images)
+            ? product.images 
+            : product.images.split(',');
         return images[0];
     });
     const { cart, addToCart, removeFromCart } = useContext(CartContext);

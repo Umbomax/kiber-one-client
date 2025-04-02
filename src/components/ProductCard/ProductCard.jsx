@@ -5,7 +5,10 @@ import styles from "./ProductCard.module.css";
 import { Link } from "react-router-dom";
 const ProductCard = ({ product }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [activeImage, setActiveImage] = useState(product.images.split(',')[0]);
+    const [activeImage, setActiveImage] = useState(() => {
+        const images = Array.isArray(product.images) ? product.images : product.images.split(',');
+        return images[0];
+    });
     const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
     const [selectedOptions, setSelectedOptions] = useState(() => {
@@ -22,7 +25,7 @@ const ProductCard = ({ product }) => {
     const handleChange = (selectorName, optionValue) => {
         setSelectedOptions((prev) => ({ ...prev, [selectorName]: optionValue }));
     };
-    const images = product.images.split(',');
+    const images = Array.isArray(product.images) ? product.images : product.images.split(',');
 
     return (
         <>

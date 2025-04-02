@@ -6,9 +6,11 @@ import { Link } from "react-router-dom";
 const ProductCard = ({ product }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [activeImage, setActiveImage] = useState(() => {
-        const images = Array.isArray(product.images)
-            ? product.images 
-            : product.images.split(',');
+        let images = product.images;
+        console.log(images)
+        if (typeof images === "string") {
+            images = images.split(',');
+        }
         return images[0];
     });
     const { cart, addToCart, removeFromCart } = useContext(CartContext);
@@ -27,7 +29,7 @@ const ProductCard = ({ product }) => {
     const handleChange = (selectorName, optionValue) => {
         setSelectedOptions((prev) => ({ ...prev, [selectorName]: optionValue }));
     };
-    const images = Array.isArray(product.images) ? product.images : product.images.split(',');
+    const images = typeof product.images === "string" ? product.images.split(',') : product.images;
 
     return (
         <>

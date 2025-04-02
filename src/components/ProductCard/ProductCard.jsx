@@ -5,7 +5,7 @@ import styles from "./ProductCard.module.css";
 import { Link } from "react-router-dom";
 const ProductCard = ({ product }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [activeImage, setActiveImage] = useState(product.images[0]);
+    const [activeImage, setActiveImage] = useState(product.images.split(',')[0]);
     const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
     const [selectedOptions, setSelectedOptions] = useState(() => {
@@ -22,11 +22,12 @@ const ProductCard = ({ product }) => {
     const handleChange = (selectorName, optionValue) => {
         setSelectedOptions((prev) => ({ ...prev, [selectorName]: optionValue }));
     };
+    const images = product.images.split(',');
 
     return (
         <>
             <div className={styles.productCard} onClick={() => setModalIsOpen(true)} role="button" tabIndex="0" onKeyPress={(e) => e.key === "Enter" && setModalIsOpen(true)}>
-                <img src={product.images[0]} alt={product.name} className={styles.productImage} />
+                <img src={images[0]} alt={product.name} className={styles.productImage} />
                 <h3 className={styles.productName}>{product.name}</h3>
                 <p className={styles.productPrice}>{product.price} киберонов</p>
                 <p className={styles.productDescription}>{product.shortDescription}</p>
@@ -41,7 +42,7 @@ const ProductCard = ({ product }) => {
                     <h2>{product.name}</h2>
                     <img src={activeImage} alt={product.name} className={styles.modalImage} />
                     <div className={styles.thumbnailContainer}>
-                        {product.images.map((img, index) => (
+                        {images.map((img, index) => (
                             <img
                                 key={index}
                                 src={img}

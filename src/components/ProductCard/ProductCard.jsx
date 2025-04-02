@@ -7,11 +7,10 @@ const ProductCard = ({ product }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [activeImage, setActiveImage] = useState(() => {
         let images = product.images;
-        console.log(images)
-        if (typeof images === "string") {
-            images = images.split(',');
+        if (Array.isArray(images) && Array.isArray(images[0])) {
+            images = images[0];
         }
-        return images[0];
+        return images ? images[0] : ""; 
     });
     const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
@@ -29,7 +28,7 @@ const ProductCard = ({ product }) => {
     const handleChange = (selectorName, optionValue) => {
         setSelectedOptions((prev) => ({ ...prev, [selectorName]: optionValue }));
     };
-    const images = typeof product.images === "string" ? product.images.split(',') : product.images;
+    const images = Array.isArray(product.images) && Array.isArray(product.images[0]) ? product.images[0] : product.images;
 
     return (
         <>

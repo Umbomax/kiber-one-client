@@ -16,7 +16,8 @@ const Cart = () => {
             setError("Корзина пуста! Добавьте товары перед оформлением заказа.");
             return;
         }
-        navigate("/checkout");
+        setError("Оформление предзаказа на весеннюю ярмарку завершено.");
+        // navigate("/checkout");
     };
 
     return (

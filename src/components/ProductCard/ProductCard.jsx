@@ -3,8 +3,10 @@ import ReactModal from "react-modal";
 import CartContext from "../../context/CartContext";
 import styles from "./ProductCard.module.css";
 import { Link } from "react-router-dom";
+import ErrorNotification from "../../components/ErrorNotification/ErrorNotification";
 const ProductCard = ({ product }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [error, setError] = useState(null);
     const [activeImage, setActiveImage] = useState(() => {
         let images = product.images;
         if (Array.isArray(images) && Array.isArray(images[0])) {
@@ -32,6 +34,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <>
+        {error && <ErrorNotification message={error} onClose={() => setError(null)} />}
             <div className={styles.productCard} onClick={() => setModalIsOpen(true)} role="button" tabIndex="0" onKeyPress={(e) => e.key === "Enter" && setModalIsOpen(true)}>
                 <img src={images[0]} alt={product.name} className={styles.productImage} />
                 <h3 className={styles.productName}>{product.name}</h3>
@@ -89,7 +92,7 @@ const ProductCard = ({ product }) => {
                             <button className={styles.footer_Btn} onClick={() => addToCart(product, selectedOptions)}>+</button>
                         </div>
                     ) : (
-                        <button className={styles.footer_Btn} onClick={() => addToCart(product, selectedOptions)}>Добавить в корзину</button>
+                        <button className={styles.footer_Btn} onClick={() => setError("Оформление предзаказа на весеннюю ярмарку завершено.")}>Добавить в корзину</button>
                     )}
                     <Link to="/cart" className={styles.footer_Btn}>
                         Перейти в корзину

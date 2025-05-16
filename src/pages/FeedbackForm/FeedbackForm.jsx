@@ -61,7 +61,7 @@ const FeedbackForm = () => {
         try {
             setIsSubmitting(true); // кнопка становится "Отправка..." и неактивной
             await axios.post(`${apiUrl}/submit-feedback`, data);
-            setNotification({ message: "Спасибо за ваш отзыв!", type: "success" });
+            setNotification({ message: "Спасибо за Ваш отзыв!", type: "success" });
             form.reset();
             setIsAnonymous(false); // сброс чекбокса
         } catch (err) {
@@ -114,7 +114,7 @@ const FeedbackForm = () => {
                     </div>
                 </div>
 
-                <label>Довольны ли Вы и ваш ребенок работой преподавателя?</label>
+                <label>Довольны ли Вы и Ваш ребенок работой преподавателя?</label>
                 <div className={styles.scaleWrapperHalf}>
                     <div className={styles.scale}>
                         {Array.from({ length: 5 }, (_, i) => (

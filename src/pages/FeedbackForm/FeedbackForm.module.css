@@ -126,7 +126,7 @@ textarea {
   border-radius: 4px;
 }
 
-button[type='submit'] {
+.submitButton {
   margin-top: 28px;
   padding: 12px 20px;
   font-size: 16px;
@@ -138,12 +138,18 @@ button[type='submit'] {
   transition: 0.2s;
 }
 
-button[type='submit']:hover {
+.submitButton:hover {
   background: #005fcc;
 }
 
-button[type='submit']:active {
+.submitButton:active {
   transform: scale(0.97);
+}
+
+.submitButton:disabled {
+  background: #a0a0a0;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .message {

@@ -3,7 +3,7 @@ import styles from "./ErrorNotification.module.css";
 
 const ErrorNotification = ({ message, onClose ,type = "error" }) => {
     useEffect(() => {
-        const timer = setTimeout(onClose, 5000);
+        const timer = setTimeout(onClose, 3000);
         return () => clearTimeout(timer);
     }, [onClose]);
 

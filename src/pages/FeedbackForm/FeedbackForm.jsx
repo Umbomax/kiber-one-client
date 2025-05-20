@@ -4,12 +4,20 @@ import styles from "./FeedbackForm.module.css";
 import { Helmet } from "react-helmet-async";
 import logo from "../../img/_R-1-.jpg";
 import Notification from "../../components/ErrorNotification/ErrorNotification";
+import YandexReviewModal from "../../components/YandexReviewModal/YandexReviewModal";
+
 const FeedbackForm = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const phoneRegex = /^\+375(25|29|33|44)\d{7}$/;
+
     const [notification, setNotification] = useState(null);
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [locationOptions, setLocationOptions] = useState([]);
+    const [selectedCity, setSelectedCity] = useState("");
+    const [selectedLocation, setSelectedLocation] = useState("");
+
+    const [modalData, setModalData] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,38 +26,24 @@ const FeedbackForm = () => {
         const anonymous = form.anonymous.checked;
         const phone = form.phone ? form.phone.value.trim() : "";
         const city = form.city.value;
+        const location = form.location?.value || "";
         const admin = form.admin.value;
         const teacher = form.teacher.value;
         const recommend = form.recommend.value;
         const comment = form.comment.value;
 
-        if (!city) {
-            setNotification({ message: "Пожалуйста, выберите город.", type: "error" });
-            return;
-        }
-
-        if (!admin) {
-            setNotification({ message: "Пожалуйста, оцените работу администратора.", type: "error" });
-            return;
-        }
-
-        if (!teacher) {
-            setNotification({ message: "Пожалуйста, оцените работу преподавателя.", type: "error" });
-            return;
-        }
-
-        if (!recommend) {
-            setNotification({ message: "Пожалуйста, выберите вероятность рекомендации.", type: "error" });
-            return;
-        }
-
+        if (!city) return setNotification({ message: "Пожалуйста, выберите город.", type: "error" });
+        if (locationOptions.length > 0 && !location) return setNotification({ message: "Пожалуйста, выберите локацию.", type: "error" });
+        if (!admin) return setNotification({ message: "Оцените администратора.", type: "error" });
+        if (!teacher) return setNotification({ message: "Оцените преподавателя.", type: "error" });
+        if (!recommend) return setNotification({ message: "Оцените вероятность рекомендации.", type: "error" });
         if (!anonymous && (!phone || !phoneRegex.test(phone))) {
-            setNotification({ message: "Пожалуйста, введите корректный номер телефона (+37529xxxxxxx).", type: "error" });
-            return;
+            return setNotification({ message: "Введите корректный номер телефона.", type: "error" });
         }
 
         const data = {
             city,
+            location,
             admin,
             teacher,
             recommend,
@@ -59,18 +53,38 @@ const FeedbackForm = () => {
         };
 
         try {
-            setIsSubmitting(true); // кнопка становится "Отправка..." и неактивной
-            await axios.post(`${apiUrl}/submit-feedback`, data);
+            setIsSubmitting(true);
+
+            const response = await axios.post(`${apiUrl}/submit-feedback`, data);
+            const { showYandexReview, city: serverCity, location: serverLocation } = response.data;
+
             setNotification({ message: "Спасибо за Ваш отзыв!", type: "success" });
-            form.reset();
-            setIsAnonymous(false); // сброс чекбокса
+
+            if (showYandexReview) {
+                setModalData({ city: serverCity, location: serverLocation });
+            }
+                form.reset();
+                setIsAnonymous(false);
+                setSelectedCity("");
+                setSelectedLocation("");
+                setLocationOptions([]);
         } catch (err) {
-            console.error(err);
-            const errMsg = err.response?.data?.error || "Произошла ошибка при отправке формы.";
-            setNotification({ message: errMsg, type: "error" });
+            const msg = err.response?.data?.error || "Ошибка при отправке формы.";
+            setNotification({ message: msg, type: "error" });
         } finally {
-            setIsSubmitting(false); // вернуть кнопку к "Отправить"
+            setIsSubmitting(false);
         }
+    };
+
+    const handleCityChange = (e) => {
+        const city = e.target.value;
+        setSelectedCity(city);
+
+        if (city === "Гродно") setLocationOptions(["17 Сентября 49а", "Титова 14"]);
+        else if (city === "Брест") setLocationOptions(["ТЦ Миллионный", "БЦ IQ"]);
+        else setLocationOptions([]);
+
+        setSelectedLocation("");
     };
 
     return (
@@ -79,7 +93,23 @@ const FeedbackForm = () => {
                 <title>Ваше мнение о KIBERone</title>
                 <meta name="description" content="Форма обратной связи." />
             </Helmet>
-            {notification && <Notification message={notification.message} type={notification.type} onClose={() => setNotification(null)} />}
+
+            {notification && (
+                <Notification
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={() => setNotification(null)}
+                />
+            )}
+
+            {modalData && (
+                <YandexReviewModal
+                    city={modalData.city}
+                    location={modalData.location}
+                    onClose={() => setModalData(null)}
+                />
+            )}
+
             <div className={styles.header}>
                 <h1>Оценка работы школы KIBERone</h1>
                 <img src={logo} alt="KIBERone Logo" className={styles.logo} />
@@ -87,7 +117,13 @@ const FeedbackForm = () => {
 
             <form onSubmit={handleSubmit}>
                 <label htmlFor="city">Из какого Вы города?</label>
-                <select id="city" name="city" required>
+                <select
+                    id="city"
+                    name="city"
+                    value={selectedCity}
+                    onChange={handleCityChange}
+                    required
+                >
                     <option value="">Выберите город</option>
                     <option value="Бобруйск">Бобруйск</option>
                     <option value="Брест">Брест</option>
@@ -98,58 +134,62 @@ const FeedbackForm = () => {
                     <option value="Пинск">Пинск</option>
                 </select>
 
-                <label>Насколько Вы довольны работой администратора?</label>
-                <div className={styles.scaleWrapperHalf}>
-                    <div className={styles.scale}>
-                        {Array.from({ length: 5 }, (_, i) => (
-                            <React.Fragment key={`admin${i + 1}`}>
-                                <input type="radio" name="admin" id={`admin${i + 1}`} value={i + 1} />
-                                <label htmlFor={`admin${i + 1}`}>{i + 1}</label>
-                            </React.Fragment>
-                        ))}
-                    </div>
-                    <div className={styles.scaleLegend}>
-                        <span>Плохо</span>
-                        <span>Отлично</span>
-                    </div>
+                {locationOptions.length > 0 && (
+                    <>
+                        <label htmlFor="location">Выберите адрес:</label>
+                        <select
+                            id="location"
+                            name="location"
+                            value={selectedLocation}
+                            onChange={(e) => setSelectedLocation(e.target.value)}
+                            required
+                        >
+                            <option value="">Выберите адрес</option>
+                            {locationOptions.map((loc) => (
+                                <option key={loc} value={loc}>
+                                    {loc}
+                                </option>
+                            ))}
+                        </select>
+                    </>
+                )}
+
+                <label>Оцените администратора:</label>
+                <div className={styles.scale}>
+                    {Array.from({ length: 5 }, (_, i) => (
+                        <React.Fragment key={`admin${i + 1}`}>
+                            <input type="radio" name="admin" id={`admin${i + 1}`} value={i + 1} />
+                            <label htmlFor={`admin${i + 1}`}>{i + 1}</label>
+                        </React.Fragment>
+                    ))}
                 </div>
 
-                <label>Довольны ли Вы и Ваш ребенок работой преподавателя?</label>
-                <div className={styles.scaleWrapperHalf}>
-                    <div className={styles.scale}>
-                        {Array.from({ length: 5 }, (_, i) => (
-                            <React.Fragment key={`teacher${i + 1}`}>
-                                <input type="radio" name="teacher" id={`teacher${i + 1}`} value={i + 1} />
-                                <label htmlFor={`teacher${i + 1}`}>{i + 1}</label>
-                            </React.Fragment>
-                        ))}
-                    </div>
-                    <div className={styles.scaleLegend}>
-                        <span>Плохо</span>
-                        <span>Отлично</span>
-                    </div>
+                <label>Оцените преподавателя:</label>
+                <div className={styles.scale}>
+                    {Array.from({ length: 5 }, (_, i) => (
+                        <React.Fragment key={`teacher${i + 1}`}>
+                            <input type="radio" name="teacher" id={`teacher${i + 1}`} value={i + 1} />
+                            <label htmlFor={`teacher${i + 1}`}>{i + 1}</label>
+                        </React.Fragment>
+                    ))}
                 </div>
 
-                <label>С какой вероятностью Вы порекомендуете KIBERone друзьям?</label>
-                <div className={styles.scaleWrapper}>
-                    <div className={styles.scale}>
-                        {Array.from({ length: 10 }, (_, i) => (
-                            <React.Fragment key={`rec${i + 1}`}>
-                                <input type="radio" name="recommend" id={`rec${i + 1}`} value={i + 1} />
-                                <label htmlFor={`rec${i + 1}`}>{i + 1}</label>
-                            </React.Fragment>
-                        ))}
-                    </div>
-                    <div className={styles.scaleLegend}>
-                        <span>не буду рекомендовать</span>
-                        <span>точно порекомендую</span>
-                    </div>
+                <label>Вероятность рекомендации:</label>
+                <div className={styles.scale}>
+                    {Array.from({ length: 10 }, (_, i) => (
+                        <React.Fragment key={`rec${i + 1}`}>
+                            <input type="radio" name="recommend" id={`rec${i + 1}`} value={i + 1} />
+                            <label htmlFor={`rec${i + 1}`}>{i + 1}</label>
+                        </React.Fragment>
+                    ))}
                 </div>
 
-                <div className={styles.scaleWrapper}>
-                    <label htmlFor="comment">Комментарий:</label>
-                    <textarea id="comment" name="comment" placeholder="Что нам стоит изменить, добавить или за что нас похвалить?"></textarea>
-                </div>
+                <label htmlFor="comment">Комментарий:</label>
+                <textarea
+                    id="comment"
+                    name="comment"
+                    placeholder="Что нам стоит изменить, добавить или за что нас похвалить?"
+                />
 
                 <div className={styles.phoneBlock}>
                     {!isAnonymous && (
@@ -159,7 +199,13 @@ const FeedbackForm = () => {
                         </>
                     )}
                     <label className={styles.checkbox}>
-                        <input type="checkbox" id="anonymous" name="anonymous" checked={isAnonymous} onChange={(e) => setIsAnonymous(e.target.checked)} />
+                        <input
+                            type="checkbox"
+                            id="anonymous"
+                            name="anonymous"
+                            checked={isAnonymous}
+                            onChange={(e) => setIsAnonymous(e.target.checked)}
+                        />
                         Анонимный отзыв
                     </label>
                 </div>

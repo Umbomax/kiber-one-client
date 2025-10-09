@@ -5,6 +5,7 @@ import Cart from "../pages/Cart/Cart";
 import Checkout from "../pages/Checkout/Checkout";
 import Orders from "../pages/Orders/Orders";
 import FeedbackForm from "../pages/FeedbackForm/FeedbackForm";
+import PcBuilderPage from "../pages/PcBuilder/PcBuilder";
 
 function AppRoutes() {
   return (
@@ -15,6 +16,7 @@ function AppRoutes() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/feedback" element={<FeedbackForm />} />
+              <Route path="/pc-builder" element={<PcBuilderPage />} />
       </Routes>
     </Router>
   );

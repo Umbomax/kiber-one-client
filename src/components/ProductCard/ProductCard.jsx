@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
     const [selectedOptions, setSelectedOptions] = useState(() => {
         if (!Array.isArray(product.selectors)) return {};
         return product.selectors.reduce((acc, selector) => {
-            acc[selector.name] = selector.options?.[0] || ""; // Первый вариант по умолчанию
+            acc[selector.name] = selector.options?.[0] || ""; 
             return acc;
         }, {});
     });
@@ -38,7 +38,7 @@ const ProductCard = ({ product }) => {
             <div className={styles.productCard} onClick={() => setModalIsOpen(true)} role="button" tabIndex="0" onKeyPress={(e) => e.key === "Enter" && setModalIsOpen(true)}>
                 <img src={images[0]} alt={product.name} className={styles.productImage} />
                 <h3 className={styles.productName}>{product.name}</h3>
-                <p className={styles.productPrice}>{product.price} киберонов</p>
+                <p className={styles.productPrice}>{product.price} киберон</p>
                 <p className={styles.productDescription}>{product.shortDescription}</p>
             </div>
 

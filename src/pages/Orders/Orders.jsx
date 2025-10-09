@@ -45,7 +45,7 @@ const Orders = () => {
                 {order && <OrderList orders={order.products} />}
                 {order && (
                     <div className={styles.totalPrice}>
-                        <strong>Итого:</strong> {order.total_price} киберонов
+                        <strong>Итого:</strong> {order.total_price} киберон
                     </div>
                 )}
             </div>

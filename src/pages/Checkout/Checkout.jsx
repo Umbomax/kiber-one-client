@@ -90,8 +90,25 @@ const Checkout = () => {
             return;
         }
         setIsSubmitting(true);
+
+        
+        const cartPayload = cart.map((item) => {
+            const isNumericId = Number.isInteger(item.id);
+            return {
+                product_id: isNumericId ? item.id : null,
+                name: isNumericId ? undefined : item.name, 
+                price: Number(item.price),
+                quantity: item.quantity || 1,
+                selected_options: item.selectedOptions || null,
+            };
+        });
+
         try {
-            const response = await axios.post(`${apiUrl}/create-order`, { ...formData, cart });
+            const response = await axios.post(`${apiUrl}/create-order`, {
+                ...formData,
+                cart: cartPayload,
+            });
+
             setNotification({
                 message: `Ваш заказ №${response.data.orderCode} оформлен!`,
                 orderCode: response.data.orderCode,
@@ -108,7 +125,7 @@ const Checkout = () => {
         } catch (error) {
             console.error("Ошибка при создании заказа:", error);
             setError(error.response?.data?.message || "Не удалось оформить заказ");
-        }finally {
+        } finally {
             setIsSubmitting(false);
         }
     };
@@ -164,10 +181,10 @@ const Checkout = () => {
 
                     <div className={styles.inputGroup}>
                         <label>Комментарии</label>
-                        <textarea placeholder="Напиши сюда сколько у тебя КИБЕРОНОВ и любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} required/>
+                        <textarea placeholder="Напиши сюда сколько у тебя КИБЕРОНОВ и любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} required />
                     </div>
                     <div className={styles.checkboxGroup}>
-                        <input type="checkbox" id="agreement" checked={isAgreed} onChange={handleCheckboxChange} required/>
+                        <input type="checkbox" id="agreement" checked={isAgreed} onChange={handleCheckboxChange} required />
                         <label htmlFor="agreement">Согласен на обработку персональных данных</label>
                     </div>
                     <button type="submit" className={styles.submitButton} disabled={!isPhoneValid || isSubmitting}>

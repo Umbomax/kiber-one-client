@@ -16,8 +16,8 @@ const Cart = () => {
             setError("Корзина пуста! Добавьте товары перед оформлением заказа.");
             return;
         }
-        setError("Оформление предзаказа на весеннюю ярмарку завершено.");
-        // navigate("/checkout");
+        // setError("Оформление предзаказа на весеннюю ярмарку завершено.");
+        navigate("/checkout");
     };
 
     return (
@@ -28,7 +28,7 @@ const Cart = () => {
                 <h2>Корзина</h2>
                 <div className={styles.cartTable}>
                     {cart.length === 0 ? <p className={styles.emptyCart}>Корзина пуста</p> : <OrderList orders={cart} removeFromCart={removeFromCart} addToCart={addToCart} isCart={true} />}
-                    {cart.length === 0 ? null : <div className={styles.totalPrice}>Общая цена: {totalPrice} киберонов</div>}
+                    {cart.length === 0 ? null : <div className={styles.totalPrice}>Общая цена: {totalPrice} киберон</div>}
                 </div>
 
                 <div className={styles.cartFooter}>

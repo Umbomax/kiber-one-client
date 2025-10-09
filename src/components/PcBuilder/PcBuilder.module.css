@@ -1,0 +1,43 @@
+.wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-top: 80px;
+}
+.header {
+    margin-bottom: 12px;
+}
+.header h1 {
+    margin: 0 0 6px;
+    color: #313131;
+}
+.header p {
+    margin: 0;
+    color: #666;
+}
+.layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 320px;
+    gap: 16px;
+    align-items: start;
+}
+.left {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e6e6e6;
+}
+
+@media (max-width: 1024px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+    .left {
+        order: 1;
+    }
+    .middle {
+        order: 2;
+    }
+    .right {
+        order: 3;
+    }
+}

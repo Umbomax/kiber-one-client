@@ -3,6 +3,7 @@ import CartContext from "../../context/CartContext";
 import axios from "axios";
 import styles from "./Checkout.module.css";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import Notification from "../../components/Notification/Notification";
 import ErrorNotification from "../../components/ErrorNotification/ErrorNotification";
 
@@ -29,7 +30,7 @@ const Checkout = () => {
     useEffect(() => {
         const fetchSchools = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/add-school`);
+                const response = await axios.get(`${apiUrl}/public/schools`);
                 setSchools(response.data);
             } catch (error) {
                 setError("Ошибка загрузки школ");
@@ -44,7 +45,7 @@ const Checkout = () => {
 
         if (name === "schoolId") {
             try {
-                const response = await axios.get(`${apiUrl}/add-school/${value}/groups`);
+                const response = await axios.get(`${apiUrl}/public/schools/${value}/groups`);
                 setGroups(response.data);
                 setFormData((prev) => ({ ...prev, groupId: "" }));
             } catch (error) {
@@ -192,6 +193,7 @@ const Checkout = () => {
                     </button>
                 </form>
             </div>
+            <Footer></Footer>
         </div>
     );
 };

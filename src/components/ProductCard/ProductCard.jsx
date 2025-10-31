@@ -92,7 +92,7 @@ const ProductCard = ({ product }) => {
                             <button className={styles.footer_Btn} onClick={() => addToCart(product, selectedOptions)}>+</button>
                         </div>
                     ) : (
-                        <button className={styles.footer_Btn} onClick={() => setError("Оформление предзаказа на весеннюю ярмарку завершено.")}>Добавить в корзину</button>
+                        <button className={styles.footer_Btn} onClick={() => addToCart(product, selectedOptions)}>Добавить в корзину</button>
                     )}
                     <Link to="/cart" className={styles.footer_Btn}>
                         Перейти в корзину

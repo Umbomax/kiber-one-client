@@ -36,17 +36,26 @@ const ITEMS = [
     { id: "Storage", label: "Жёсткий диск" },
 ];
 
+const REQUIRED = { CPU: true, RAM: true, Storage: true, GPU: false };
+
 const CategorySelector = ({ selectedCategory, onChange }) => {
     return (
         <aside className={styles.sidebar}>
             <div className={styles.caption}>КОМПОНЕНТЫ</div>
             <div className={styles.nav}>
-                {ITEMS.map((it) => (
-                    <button key={it.id} className={selectedCategory === it.id ? `${styles.item} ${styles.active}` : styles.item} onClick={() => onChange(it.id)} type="button">
-                        <span className={styles.icon}>{ICONS[it.id]}</span>
-                        <span>{it.label}</span>
-                    </button>
-                ))}
+                {ITEMS.map((it) => {
+                    const isActive = selectedCategory === it.id;
+                    const isRequired = REQUIRED[it.id];
+                    return (
+                        <button key={it.id} className={isActive ? `${styles.item} ${styles.active}` : styles.item} onClick={() => onChange(it.id)} type="button">
+                            <span className={styles.icon}>{ICONS[it.id]}</span>
+                            <span>
+                                {it.label}
+                                {isRequired && <span className={styles.reqMark}>*</span>}
+                            </span>
+                        </button>
+                    );
+                })}
             </div>
         </aside>
     );

@@ -1,0 +1,79 @@
+.footer {
+  background: #000; /* чёрный фон */
+  color: #e6eef0;  /* лёгкий холодный светло-серый — читаемо на чёрном */
+  padding: 28px 20px;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* левая колонка: название + УНП */
+.left {
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.company {
+  font-weight: 700;
+  font-size: 18px;
+  color: #ffffff; 
+}
+
+.unp {
+  font-size: 13px;
+  color: #cbd6d8;
+}
+
+.unpValue {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+
+.address {
+  font-style: normal; 
+  color: #cbd6d8;
+  line-height: 1.45;
+  min-width: 240px;
+}
+
+.bottom {
+  max-width: 1140px;
+  margin: 18px auto 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(230,238,240,0.7);
+  font-size: 13px;
+}
+
+@media (max-width: 720px) {
+  .container {
+    padding: 0 12px;
+    gap: 12px;
+    align-items: center;
+  }
+  .left, .address {
+    width: 100%;
+    text-align: center;
+    min-width: auto;
+  }
+  .bottom {
+    padding: 0 12px;
+    justify-content: center;
+    text-align: center;
+  }
+}

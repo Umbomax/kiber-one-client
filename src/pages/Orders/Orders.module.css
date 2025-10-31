@@ -1,77 +1,118 @@
-.inputContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .inputField {
-    width: 250px;
-    padding: 12px;
-    font-size: 16px;
-    border: 2px solid black;
-    border-radius: 8px;
-    
-    
-    outline: none;
-    transition: all 0.3s ease;
-  }
-  
-  .container {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  .header{
-    margin: 0;
-    padding-top: 100px;
-    text-align: center;
-  }
-  
-  .searchButton {
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: 500;
-    color: black;
-    background: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .searchButton:hover {
-    background: rgba(255, 255, 255, 0.9);
-  }
-  
-  .searchButton:active {
-    transform: scale(0.98);
-  }
-  .totalPrice {
-    margin: 20px;
-    padding-bottom: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: right;
-
+/* ВЕСЬ ЭКРАН + футер внизу */
+.ordersPage {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
-  @media (max-width: 480px) {
-    .inputContainer {
-      flex-direction: column;
-      gap: 5px;
-      box-sizing: border-box;   
-    }
-  
-    .inputField {
-      width: 85%;
-    }
-  
-    .searchButton {
-      margin-top: 20px;
-      background-color: #0071e3;
-      width: 50%;
-    }
+/* Контент тянется, чтобы вытолкнуть футер вниз */
+.container {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* ключ: контейнер занимает всё доступное пространство */
+}
+
+/* Центрируем заголовок+поиск, если нет результатов */
+.main {
+  flex: 1; /* занимает оставшееся пространство, чтобы центрировать */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* центр по вертикали */
+  gap: 10px;
+}
+
+/* Когда есть результаты/ошибка — убираем вертикальное центрирование */
+.mainTop {
+  justify-content: flex-start;
+  padding-top: 100px; /* как было у header, чтобы сохранить отступ сверху */
+}
+
+/* Заголовок */
+.header {
+  margin: 0;
+  text-align: center;
+}
+
+/* Поле и кнопка */
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+
+  /* ВАЖНО: убрали min-height: 90dvh; — теперь центрирование управляется .main */
+}
+
+.inputField {
+  width: 250px;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid black;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.searchButton {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: black;
+  background: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.searchButton:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.searchButton:active {
+  transform: scale(0.98);
+}
+
+.totalPrice {
+  margin: 20px;
+  padding-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+}
+
+/* Сообщение об ошибке (если есть) */
+.error {
+  color: #c62828;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 480px) {
+  .mainTop {
+    padding-top: 80px;
   }
-  
+
+  .inputContainer {
+    flex-direction: column;
+    gap: 5px;
+    box-sizing: border-box;
+  }
+
+  .inputField {
+    width: 85%;
+  }
+
+  .searchButton {
+    margin-top: 20px;
+    background-color: #0071e3;
+    width: 50%;
+  }
+}

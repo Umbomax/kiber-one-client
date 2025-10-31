@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ProductPreview.module.css";
 
-const ProductPreview = ({ products, selectedCategory, selectedId, onSelect }) => {
+const ProductPreview = ({ products, selectedCategory, selectedId, onSelect, isRequired }) => {
     const list = products[selectedCategory] || [];
     return (
         <section className={styles.wrap}>
@@ -12,8 +12,12 @@ const ProductPreview = ({ products, selectedCategory, selectedId, onSelect }) =>
                     {selectedCategory === "GPU" && "Видеокарта"}
                     {selectedCategory === "Storage" && "Жёсткий диск"}
                 </h2>
-                <span className={styles.count}>{list.length} вариантов доступно</span>
+                <div className={styles.metaHead}>
+                    <span className={isRequired ? styles.req : styles.opt}>{isRequired ? "Обязательно" : "Опционально"}</span>
+                    <span className={styles.count}>{list.length} вариантов доступно</span>
+                </div>
             </div>
+
             <div className={styles.list}>
                 {list.map((p) => (
                     <div key={p.id} className={styles.card}>
@@ -37,7 +41,7 @@ const ProductPreview = ({ products, selectedCategory, selectedId, onSelect }) =>
                                 </ul>
                             )}
                             <div className={styles.footer}>
-                                <div className={styles.price}>{p.price} кибероны</div>
+                                <div className={styles.price}>{p.price} киберон</div>
                                 <button className={selectedId === p.id ? `${styles.btn} ${styles.chosen}` : styles.btn} onClick={() => onSelect(p.id)} type="button">
                                     {selectedId === p.id ? "Выбрано" : "Выбрать"}
                                 </button>

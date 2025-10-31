@@ -13,6 +13,7 @@
     gap: 10px;
 }
 .item {
+    font-size: 12px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -47,4 +48,30 @@
         grid-template-columns: 1fr 1fr;
         gap: 8px;
     }
+    
+}
+/* справа от названия — подпись; сдвигаем вправо авто-отступом */
+.reqMeta {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* маленькая красная звёздочка возле названия */
+.reqMark {
+  color: #ff3b30;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+/* подписи справа */
+.metaRequired {
+  color: #ff3b30;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.metaOptional {
+  color: #7a7a7a;
+  font-size: 12px;
 }

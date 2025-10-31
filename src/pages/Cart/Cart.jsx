@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
+import { useNavigate } from "react-router-dom";
 import CartContext from "../../context/CartContext";
 import styles from "./Cart.module.css";
 import Header from "../../components/Header/Header";
 import OrderList from "../../components/OrderList/OrderList";
 import ErrorNotification from "../../components/ErrorNotification/ErrorNotification";
+import Footer from "../../components/Footer/Footer";
 const Cart = () => {
     const { cart, removeFromCart, addToCart, clearCart } = useContext(CartContext);
     const navigate = useNavigate();
@@ -51,6 +52,7 @@ const Cart = () => {
                     )}
                 </div>
             </div>
+            <Footer></Footer>
         </div>
     );
 };

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import ProductList from "../../components/ProductList/ProductList";
 import styles from "./Main.module.css";
-// import background from "../../img/___9-1.jpg";
+
 const Main = () => {
     const [cart, setCart] = useState([]);
 
@@ -15,22 +16,6 @@ const Main = () => {
             return [...prevCart, product];
         });
     };
-    const [basePrice, setBasePrice] = useState(null);
-    const apiUrl = process.env.REACT_APP_API_URL;
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const res = await fetch(`${apiUrl}/pc-builder/settings`);
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data?.basePrice) setBasePrice(data.basePrice);
-                }
-            } catch (err) {
-                console.error("Ошибка загрузки базовой цены:", err);
-            }
-        })();
-    }, [apiUrl]);
     return (
         <div>
             <Header />
@@ -67,19 +52,15 @@ const Main = () => {
                         </p>
                         <p className={styles.highlight}>
                             <b>!</b> Примечание: так как ты делаешь заказ заранее до ярмарки, не забывай, при выборе товара, учитывать <strong>КИБЕРоны</strong>, которые ты еще заработаешь до конца
-                            мая.
+                            декабря.
                         </p>
                         <p>Выбирай товары, которые хочешь приобрести, и завершай свой заказ в корзине, с указанием своих данных (ФИО, город и номер телефона) 💛</p>
                     </div>
                     <ProductList onAddToCart={handleAddToCart} />
-                    <div className={styles.productCard} onClick={() => (window.location.href = "/pc-builder")}>
-                        <img src="/PC_Builder.png" alt="Конструктор ПК" className={styles.productImage} />
-                        <h3 className={styles.productName}>Конструктор ПК</h3>
-                        <p className={styles.productPrice}>{basePrice !== null ? `Базовая стоимость — ${basePrice} киберон` : "Базовая стоимость — 6000 киберон"}</p>
-                        <p className={styles.productDescription}>Собери свой компьютер — в базу уже входят корпус, материнка и охлаждение.</p>
-                    </div>
+
                 </div>
             </main>
+             <Footer />
         </div>
     );
 };

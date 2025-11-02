@@ -3,6 +3,16 @@ import styles from "./ProductPreview.module.css";
 
 const ProductPreview = ({ products, selectedCategory, selectedId, onSelect, isRequired }) => {
     const list = products[selectedCategory] || [];
+
+    const getVariantWord = (count) => {
+        const mod10 = count % 10;
+        const mod100 = count % 100;
+
+        if (mod10 === 1 && mod100 !== 11) return "вариант";
+        if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return "варианта";
+        return "вариантов";
+    };
+
     return (
         <section className={styles.wrap}>
             <div className={styles.header}>
@@ -13,8 +23,12 @@ const ProductPreview = ({ products, selectedCategory, selectedId, onSelect, isRe
                     {selectedCategory === "Storage" && "Жёсткий диск"}
                 </h2>
                 <div className={styles.metaHead}>
-                    <span className={isRequired ? styles.req : styles.opt}>{isRequired ? "Обязательно" : "Опционально"}</span>
-                    <span className={styles.count}>{list.length} вариантов доступно</span>
+                    <span className={isRequired ? styles.req : styles.opt}>
+                        {isRequired ? "Обязательно" : "Опционально"}
+                    </span>
+                    <span className={styles.count}>
+                        {list.length} {getVariantWord(list.length)} доступно
+                    </span>
                 </div>
             </div>
 
@@ -42,7 +56,11 @@ const ProductPreview = ({ products, selectedCategory, selectedId, onSelect, isRe
                             )}
                             <div className={styles.footer}>
                                 <div className={styles.price}>{p.price} киберон</div>
-                                <button className={selectedId === p.id ? `${styles.btn} ${styles.chosen}` : styles.btn} onClick={() => onSelect(p.id)} type="button">
+                                <button
+                                    className={selectedId === p.id ? `${styles.btn} ${styles.chosen}` : styles.btn}
+                                    onClick={() => onSelect(p.id)}
+                                    type="button"
+                                >
                                     {selectedId === p.id ? "Выбрано" : "Выбрать"}
                                 </button>
                             </div>

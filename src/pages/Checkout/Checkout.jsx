@@ -39,8 +39,22 @@ const Checkout = () => {
         fetchSchools();
     }, [apiUrl]);
 
+    const normalizeName = (val) => {
+        let v = String(val).replace(/[–-—−]/g, "-");
+        v = v.replace(/[^A-Za-zА-Яа-яЁёІіЎў-]/g, "");
+        v = v.replace(/-+/g, "-");
+        return v;
+    };
+
     const handleChange = async (e) => {
         const { name, value } = e.target;
+
+        if (name === "firstName" || name === "lastName") {
+            const cleanedValue = normalizeName(value);
+            setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+            return;
+        }
+
         setFormData((prev) => ({ ...prev, [name]: value }));
 
         if (name === "schoolId") {
@@ -56,7 +70,7 @@ const Checkout = () => {
     };
 
     const handlePhoneChange = (e) => {
-        let value = e.target.value.replace(/\D/g, ""); // Убираем все, кроме цифр
+        let value = e.target.value.replace(/\D/g, "");
 
         if (value.startsWith("375")) {
             value = `+${value}`;
@@ -70,7 +84,6 @@ const Checkout = () => {
             value = "+375";
         }
 
-        // Проверка формата телефона
         const phoneRegex = /^\+375(25|29|33|44)\d{7}$/;
         setIsPhoneValid(phoneRegex.test(value));
 
@@ -80,8 +93,21 @@ const Checkout = () => {
     const handleCheckboxChange = () => {
         setIsAgreed((prev) => !prev);
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Клиентская проверка от подмены значений
+        const nameRegex = /^[A-Za-zА-Яа-яЁёІіЎў-]+$/;
+        if (!nameRegex.test(formData.firstName)) {
+            setError("Имя должно содержать только буквы и дефис");
+            return;
+        }
+        if (!nameRegex.test(formData.lastName)) {
+            setError("Фамилия должна содержать только буквы и дефис");
+            return;
+        }
+
         if (!isPhoneValid) {
             setError("Введите корректный номер телефона");
             return;
@@ -90,14 +116,14 @@ const Checkout = () => {
             setError("Необходимо согласие на обработку персональных данных");
             return;
         }
+
         setIsSubmitting(true);
 
-        
         const cartPayload = cart.map((item) => {
             const isNumericId = Number.isInteger(item.id);
             return {
                 product_id: isNumericId ? item.id : null,
-                name: isNumericId ? undefined : item.name, 
+                name: isNumericId ? undefined : item.name,
                 price: Number(item.price),
                 quantity: item.quantity || 1,
                 selected_options: item.selectedOptions || null,
@@ -141,12 +167,33 @@ const Checkout = () => {
                 <form onSubmit={handleSubmit}>
                     <div className={styles.inputGroup}>
                         <label>Имя ученика</label>
-                        <input placeholder="Укажите имя ученика" type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+                        <input
+                            placeholder="Укажите имя ученика"
+                            type="text"
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                            required
+                            // Разрешаем RU/LAT, Ёё, Іі, Ўў и дефис
+                            pattern="[A-Za-zА-Яа-яЁёІіЎў-]+"
+                            inputMode="text"
+                            autoComplete="given-name"
+                        />
                     </div>
 
                     <div className={styles.inputGroup}>
                         <label>Фамилия ученика</label>
-                        <input placeholder="Укажите фамилию ученика" type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
+                        <input
+                            placeholder="Укажите фамилию ученика"
+                            type="text"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                            required
+                            pattern="[A-Za-zА-Яа-яЁёІіЎў-]+"
+                            inputMode="text"
+                            autoComplete="family-name"
+                        />
                     </div>
 
                     <div className={styles.inputGroup}>
@@ -176,7 +223,17 @@ const Checkout = () => {
 
                     <div className={styles.inputGroup}>
                         <label>Телефон</label>
-                        <input type="tel" name="phone" value={formData.phone} onChange={handlePhoneChange} required maxLength={13} className={!isPhoneValid ? styles.invalid : ""} />
+                        <input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handlePhoneChange}
+                            required
+                            maxLength={13}
+                            className={!isPhoneValid ? styles.invalid : ""}
+                            inputMode="tel"
+                            autoComplete="tel"
+                        />
                         {!isPhoneValid && <small className={styles.errorText}>Формат: +375 (25/29/33/44) 1234567</small>}
                     </div>
 
@@ -184,6 +241,7 @@ const Checkout = () => {
                         <label>Комментарии</label>
                         <textarea placeholder="Напиши сюда сколько у тебя КИБЕРОНОВ и любые пожелания к заказу" name="comments" value={formData.comments} onChange={handleChange} required />
                     </div>
+
                     <div className={styles.checkboxGroup}>
                         <input type="checkbox" id="agreement" checked={isAgreed} onChange={handleCheckboxChange} required />
                         <label htmlFor="agreement">Согласен на обработку персональных данных</label>
@@ -193,7 +251,7 @@ const Checkout = () => {
                     </button>
                 </form>
             </div>
-            <Footer></Footer>
+            <Footer />
         </div>
     );
 };

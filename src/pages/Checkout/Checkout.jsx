@@ -135,20 +135,20 @@ const Checkout = () => {
         }
 
         if (totalPrice > 7000) {
-            setError("У Вас недостаточно киберон для заказа.");
+            setError("У Вас недостаточно киберонов для заказа.");
             return;
         }
 
         const numbers = formData.comments.match(/\d+/g);
         if (!numbers || numbers.length === 0) {
-            setError("Укажи, пожалуйста, количество заработанных тобой киберон цифрой.");
+            setError("Укажи, пожалуйста, количество заработанных тобой киберонов цифрой.");
             return;
         }
 
         const parsed = numbers.map((n) => parseInt(n, 10)).filter((n) => Number.isFinite(n) && n > 0);
 
         if (parsed.length === 0) {
-            setError("Укажи, пожалуйста, количество заработанных тобой киберон цифрой.");
+            setError("Укажи, пожалуйста, количество заработанных тобой киберонов цифрой.");
             return;
         }
 
@@ -161,7 +161,7 @@ const Checkout = () => {
         }
 
         if (totalPrice - kiberonsAmount > 300) {
-            setError("У Вас недостаточно киберон для заказа.");
+            setError("У Вас недостаточно киберонов для заказа.");
             return;
         }
 

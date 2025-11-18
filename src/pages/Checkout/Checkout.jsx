@@ -96,6 +96,7 @@ const Checkout = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
 
         // Клиентская проверка от подмены значений
         const nameRegex = /^[A-Za-zА-Яа-яЁёІіЎў-]+$/;
@@ -117,7 +118,53 @@ const Checkout = () => {
             return;
         }
 
-        setIsSubmitting(true);
+        if (!cart || cart.length === 0) {
+            setError("Ваша корзина пуста");
+            return;
+        }
+
+        const totalPrice = cart.reduce((sum, item) => {
+            const price = Number(item.price) || 0;
+            const qty = item.quantity || 1;
+            return sum + price * qty;
+        }, 0);
+
+        if (!Number.isFinite(totalPrice) || totalPrice <= 0) {
+            setError("Ошибка при расчёте стоимости заказа. Попробуйте обновить страницу.");
+            return;
+        }
+
+        if (totalPrice > 7000) {
+            setError("У Вас недостаточно киберон для заказа.");
+            return;
+        }
+
+        const numbers = formData.comments.match(/\d+/g);
+        if (!numbers || numbers.length === 0) {
+            setError("Укажи, пожалуйста, количество заработанных тобой киберон цифрой.");
+            return;
+        }
+
+        const parsed = numbers.map((n) => parseInt(n, 10)).filter((n) => Number.isFinite(n) && n > 0);
+
+        if (parsed.length === 0) {
+            setError("Укажи, пожалуйста, количество заработанных тобой киберон цифрой.");
+            return;
+        }
+
+        const kiberonsAmount = Math.max(...parsed);
+
+
+        if (kiberonsAmount < 50) {
+            setError("Укажи, пожалуйста, количество заработанных тобой киберон цифрой.");
+            return;
+        }
+
+        if (totalPrice - kiberonsAmount > 300) {
+            setError("У Вас недостаточно киберон для заказа.");
+            return;
+        }
+
 
         const cartPayload = cart.map((item) => {
             const isNumericId = Number.isInteger(item.id);
@@ -129,6 +176,8 @@ const Checkout = () => {
                 selected_options: item.selectedOptions || null,
             };
         });
+
+        setIsSubmitting(true);
 
         try {
             const response = await axios.post(`${apiUrl}/create-order`, {
@@ -174,7 +223,6 @@ const Checkout = () => {
                             value={formData.firstName}
                             onChange={handleChange}
                             required
-                            // Разрешаем RU/LAT, Ёё, Іі, Ўў и дефис
                             pattern="[A-Za-zА-Яа-яЁёІіЎў-]+"
                             inputMode="text"
                             autoComplete="given-name"

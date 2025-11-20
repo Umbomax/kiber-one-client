@@ -4,6 +4,7 @@ import CartContext from "../../context/CartContext";
 import styles from "./ProductCard.module.css";
 import { Link } from "react-router-dom";
 import ErrorNotification from "../../components/ErrorNotification/ErrorNotification";
+
 const ProductCard = ({ product }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [error, setError] = useState(null);
@@ -12,17 +13,24 @@ const ProductCard = ({ product }) => {
         if (Array.isArray(images) && Array.isArray(images[0])) {
             images = images[0];
         }
-        return images ? images[0] : ""; 
+        return images ? images[0] : "";
     });
     const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
     const [selectedOptions, setSelectedOptions] = useState(() => {
         if (!Array.isArray(product.selectors)) return {};
         return product.selectors.reduce((acc, selector) => {
-            acc[selector.name] = selector.options?.[0] || ""; 
+            acc[selector.name] = selector.options?.[0] || "";
             return acc;
         }, {});
     });
+
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    // Статус ярмарки (кэшируем после первого запроса)
+    const [fairChecked, setFairChecked] = useState(false);
+    const [fairEnabled, setFairEnabled] = useState(true);
+    const [fairMessage, setFairMessage] = useState("");
 
     const cartItem = cart.find((item) => item.id === product.id && JSON.stringify(item.selectedOptions) === JSON.stringify(selectedOptions));
     const quantity = cartItem ? cartItem.quantity : 0;
@@ -30,11 +38,46 @@ const ProductCard = ({ product }) => {
     const handleChange = (selectorName, optionValue) => {
         setSelectedOptions((prev) => ({ ...prev, [selectorName]: optionValue }));
     };
+
     const images = Array.isArray(product.images) && Array.isArray(product.images[0]) ? product.images[0] : product.images;
+
+    const handleAddToCartClick = async () => {
+        try {
+            if (!fairChecked) {
+                try {
+                    const resp = await fetch(`${apiUrl}/public/fair-status`);
+                    if (!resp.ok) {
+                        throw new Error("Ошибка при проверке статуса ярмарки");
+                    }
+                    const data = await resp.json();
+                    setFairEnabled(Boolean(data.fair_enabled));
+                    setFairMessage(data.fair_message || "");
+                    setFairChecked(true);
+
+                    if (!data.fair_enabled) {
+                        setError(data.fair_message || "Оформление заказов на ярмарку завершено.");
+                        return;
+                    }
+                } catch (e) {
+                    console.error("Ошибка проверки ярмарки:", e);
+                    setError("В данный момент оформление заказов временно недоступно. Попробуйте позже.");
+                    return;
+                }
+            } else if (!fairEnabled) {
+                setError(fairMessage || "Оформление заказов на ярмарку завершено.");
+                return;
+            }
+
+            // Если сюда дошли — ярмарка включена
+            addToCart(product, selectedOptions);
+        } catch (e) {
+            console.error("handleAddToCartClick error:", e);
+        }
+    };
 
     return (
         <>
-        {error && <ErrorNotification message={error} onClose={() => setError(null)} />}
+            {error && <ErrorNotification message={error} onClose={() => setError(null)} />}
             <div className={styles.productCard} onClick={() => setModalIsOpen(true)} role="button" tabIndex="0" onKeyPress={(e) => e.key === "Enter" && setModalIsOpen(true)}>
                 <img src={images[0]} alt={product.name} className={styles.productImage} />
                 <h3 className={styles.productName}>{product.name}</h3>
@@ -43,11 +86,10 @@ const ProductCard = ({ product }) => {
             </div>
 
             <ReactModal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className={styles.modal} overlayClassName={styles.overlay}>
-            <button className={styles.closeButton} onClick={() => setModalIsOpen(false)}>
-                        ×
-                    </button>
+                <button className={styles.closeButton} onClick={() => setModalIsOpen(false)}>
+                    ×
+                </button>
                 <div className={styles.modalContent}>
-                    
                     <h2>{product.name}</h2>
                     <img src={activeImage} alt={product.name} className={styles.modalImage} />
                     <div className={styles.thumbnailContainer}>
@@ -87,12 +129,18 @@ const ProductCard = ({ product }) => {
                 <div className={styles.modalFooter}>
                     {quantity > 0 ? (
                         <div className={styles.cartControls}>
-                            <button className={styles.footer_Btn} onClick={() => removeFromCart(product, selectedOptions)}>-</button>
+                            <button className={styles.footer_Btn} onClick={() => removeFromCart(product, selectedOptions)}>
+                                -
+                            </button>
                             <span>{quantity}</span>
-                            <button className={styles.footer_Btn} onClick={() => addToCart(product, selectedOptions)}>+</button>
+                            <button className={styles.footer_Btn} onClick={handleAddToCartClick}>
+                                +
+                            </button>
                         </div>
                     ) : (
-                        <button className={styles.footer_Btn} onClick={() => addToCart(product, selectedOptions)}>Добавить в корзину</button>
+                        <button className={styles.footer_Btn} onClick={handleAddToCartClick}>
+                            Добавить в корзину
+                        </button>
                     )}
                     <Link to="/cart" className={styles.footer_Btn}>
                         Перейти в корзину

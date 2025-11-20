@@ -6,19 +6,55 @@ import Header from "../../components/Header/Header";
 import OrderList from "../../components/OrderList/OrderList";
 import ErrorNotification from "../../components/ErrorNotification/ErrorNotification";
 import Footer from "../../components/Footer/Footer";
+
 const Cart = () => {
     const { cart, removeFromCart, addToCart, clearCart } = useContext(CartContext);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-    const handleCheckout = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    const [fairChecked, setFairChecked] = useState(false);
+    const [fairEnabled, setFairEnabled] = useState(true);
+    const [fairMessage, setFairMessage] = useState("");
+
+    const handleCheckout = async () => {
         if (cart.length === 0) {
             setError("Корзина пуста! Добавьте товары перед оформлением заказа.");
             return;
         }
-        // setError("Оформление предзаказа на весеннюю ярмарку завершено.");
-        navigate("/checkout");
+
+        try {
+            if (!fairChecked) {
+                try {
+                    const resp = await fetch(`${apiUrl}/public/fair-status`);
+                    if (!resp.ok) {
+                        throw new Error("Ошибка при проверке статуса ярмарки");
+                    }
+                    const data = await resp.json();
+                    setFairEnabled(Boolean(data.fair_enabled));
+                    setFairMessage(data.fair_message || "");
+                    setFairChecked(true);
+
+                    if (!data.fair_enabled) {
+                        setError(data.fair_message || "Оформление предзаказа на ярмарку завершено.");
+                        return;
+                    }
+                } catch (e) {
+                    console.error("Ошибка проверки ярмарки:", e);
+                    setError("В данный момент оформление заказов временно недоступно. Попробуйте позже.");
+                    return;
+                }
+            } else if (!fairEnabled) {
+                setError(fairMessage || "Оформление предзаказа на ярмарку завершено.");
+                return;
+            }
+
+            navigate("/checkout");
+        } catch (e) {
+            console.error("handleCheckout error:", e);
+        }
     };
 
     return (

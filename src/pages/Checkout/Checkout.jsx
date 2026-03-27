@@ -30,7 +30,7 @@ const Checkout = () => {
     useEffect(() => {
         const fetchSchools = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/public/schools`);
+                const response = await axios.get(`${apiUrl}/public/schools`, { credentials: "include" });
                 setSchools(response.data);
             } catch (error) {
                 setError("Ошибка загрузки школ");
@@ -59,7 +59,7 @@ const Checkout = () => {
 
         if (name === "schoolId") {
             try {
-                const response = await axios.get(`${apiUrl}/public/schools/${value}/groups`);
+                const response = await axios.get(`${apiUrl}/public/schools/${value}/groups`, { withCredentials: true });
                 setGroups(response.data);
                 setFormData((prev) => ({ ...prev, groupId: "" }));
             } catch (error) {
@@ -183,7 +183,7 @@ const Checkout = () => {
             const response = await axios.post(`${apiUrl}/create-order`, {
                 ...formData,
                 cart: cartPayload,
-            });
+            }, { withCredentials: true });
 
             setNotification({
                 message: `Ваш заказ №${response.data.orderCode} оформлен!`,

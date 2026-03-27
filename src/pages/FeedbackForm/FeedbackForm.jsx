@@ -55,7 +55,7 @@ const FeedbackForm = () => {
         try {
             setIsSubmitting(true);
 
-            const response = await axios.post(`${apiUrl}/submit-feedback`, data);
+            const response = await axios.post(`${apiUrl}/submit-feedback`, data, { withCredentials: true });
             const { showYandexReview, city: serverCity, location: serverLocation } = response.data;
 
             setNotification({ message: "Спасибо за Ваш отзыв!", type: "success" });

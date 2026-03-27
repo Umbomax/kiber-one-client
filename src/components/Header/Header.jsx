@@ -22,14 +22,14 @@ const Header = () => {
 
                 {/* Логотип */}
                 <div className={styles.header__left}>
-                    <Link to="/" className={styles.logo}>
+                    <Link to="/main" className={styles.logo}>
                         <img src={logo} alt="Логотип" />
                     </Link>
                 </div>
 
                 {/* Навигация (десктоп) */}
                 <nav className={styles.nav}>
-                    <Link to="/" className={styles.navItem}>
+                    <Link to="/main" className={styles.navItem}>
                         Главная
                     </Link>
                     <Link to="/orders" className={styles.navItem}>
@@ -57,7 +57,7 @@ const Header = () => {
                         ×
                     </button>
                     <nav>
-                        <Link to="/" className={styles.menuItem} onClick={() => setMenuOpen(false)}>
+                        <Link to="/main" className={styles.menuItem} onClick={() => setMenuOpen(false)}>
                             Главная
                         </Link>
                         <Link to="/orders" className={styles.menuItem} onClick={() => setMenuOpen(false)}>

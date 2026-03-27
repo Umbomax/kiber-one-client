@@ -28,7 +28,7 @@ const Cart = () => {
         try {
             if (!fairChecked) {
                 try {
-                    const resp = await fetch(`${apiUrl}/public/fair-status`);
+                    const resp = await fetch(`${apiUrl}/public/fair-status`, { credentials: "include" });
                     if (!resp.ok) {
                         throw new Error("Ошибка при проверке статуса ярмарки");
                     }
@@ -75,7 +75,7 @@ const Cart = () => {
                     {cart.length === 0 ? (
                         <button
                             onClick={() => {
-                                navigate("/");
+                                navigate("/main");
                             }}
                             className={styles.checkoutButton}
                         >

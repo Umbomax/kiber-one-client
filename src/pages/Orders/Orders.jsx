@@ -20,7 +20,7 @@ const Orders = () => {
     }
 
     try {
-      const response = await fetch(`${apiUrl}/orders/${orderCode}`);
+      const response = await fetch(`${apiUrl}/orders/${orderCode}`, { credentials: "include" });
       if (!response.ok) throw new Error("Заказ не найден");
       const data = await response.json();
       setOrder(data);

@@ -25,7 +25,7 @@ const PcBuilder = () => {
     (async () => {
       try {
         setLoading(true);
-        const r = await fetch(`${apiUrl}/pc-builder/settings`);
+        const r = await fetch(`${apiUrl}/pc-builder/settings`, { credentials: "include" });
         if (!r.ok) throw new Error();
         const data = await r.json();
         if (!off) {

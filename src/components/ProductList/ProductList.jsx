@@ -15,7 +15,7 @@ const ProductList = ({ onAddToCart }) => {
     useEffect(() => {
         (async () => {
             try {
-                const res = await fetch(`${apiUrl}/pc-builder/settings`);
+                const res = await fetch(`${apiUrl}/pc-builder/settings`, { credentials: "include" });
                 if (res.ok) {
                     const data = await res.json();
                     if (data?.basePrice) setBasePrice(data.basePrice);
@@ -28,7 +28,7 @@ const ProductList = ({ onAddToCart }) => {
 
     useEffect(() => {
         axios
-            .get(`${apiUrl}/products`)
+            .get(`${apiUrl}/products`, { credentials: "include" })
             .then((response) => {
                 setProducts(response.data);
                 setLoading(false);
@@ -37,7 +37,7 @@ const ProductList = ({ onAddToCart }) => {
                 setError("Ошибка при загрузке товаров");
                 setLoading(false);
             });
-    }, []);
+    }, [apiUrl]);
 
     if (loading) return <p>Загрузка товаров...</p>;
     if (error) return <p>{error}</p>;

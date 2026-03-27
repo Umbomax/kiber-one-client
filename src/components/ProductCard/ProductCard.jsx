@@ -27,7 +27,6 @@ const ProductCard = ({ product }) => {
 
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    // Статус ярмарки (кэшируем после первого запроса)
     const [fairChecked, setFairChecked] = useState(false);
     const [fairEnabled, setFairEnabled] = useState(true);
     const [fairMessage, setFairMessage] = useState("");
@@ -45,7 +44,7 @@ const ProductCard = ({ product }) => {
         try {
             if (!fairChecked) {
                 try {
-                    const resp = await fetch(`${apiUrl}/public/fair-status`);
+                    const resp = await fetch(`${apiUrl}/public/fair-status`, { credentials: "include" });
                     if (!resp.ok) {
                         throw new Error("Ошибка при проверке статуса ярмарки");
                     }

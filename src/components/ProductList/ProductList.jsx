@@ -28,7 +28,7 @@ const ProductList = ({ onAddToCart }) => {
 
     useEffect(() => {
         axios
-            .get(`${apiUrl}/products`, { credentials: "include" })
+            .get(`${apiUrl}/products`, { withCredentials: true  })
             .then((response) => {
                 setProducts(response.data);
                 setLoading(false);

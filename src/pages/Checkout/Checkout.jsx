@@ -30,7 +30,7 @@ const Checkout = () => {
     useEffect(() => {
         const fetchSchools = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/public/schools`, { credentials: "include" });
+                const response = await axios.get(`${apiUrl}/public/schools`, { withCredentials: true });
                 setSchools(response.data);
             } catch (error) {
                 setError("Ошибка загрузки школ");

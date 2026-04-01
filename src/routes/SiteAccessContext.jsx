@@ -26,6 +26,24 @@ export function SiteAccessProvider({ children }) {
 
     useEffect(() => {
         refresh();
+
+        const onFocus = () => refresh();
+        const onVisibility = () => {
+            if (!document.hidden) refresh();
+        };
+
+        window.addEventListener("focus", onFocus);
+        document.addEventListener("visibilitychange", onVisibility);
+
+        const intervalId = setInterval(() => {
+            refresh();
+        }, 10000);
+
+        return () => {
+            clearInterval(intervalId);
+            window.removeEventListener("focus", onFocus);
+            document.removeEventListener("visibilitychange", onVisibility);
+        };
     }, [refresh]);
 
     const login = useCallback(

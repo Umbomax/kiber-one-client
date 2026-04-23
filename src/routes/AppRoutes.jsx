@@ -32,7 +32,7 @@ function AppRoutes() {
                     <Route path="/cart" element={<ProtectedRoute element={<Cart />} />} />
                     <Route path="/orders" element={<ProtectedRoute element={<Orders />} />} />
                     <Route path="/checkout" element={<ProtectedRoute element={<Checkout />} />} />
-                    <Route path="/feedback" element={<ProtectedRoute element={<FeedbackForm />} />} />
+                    <Route path="/feedback" element={<FeedbackForm />} />
                     <Route path="/pc-builder" element={<ProtectedRoute element={<PcBuilderPage />} />} />
                     <Route path="*" element={<FallbackRoute />} />
                 </Routes>
